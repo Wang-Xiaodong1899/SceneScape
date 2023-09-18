@@ -82,12 +82,14 @@ def run(config):
         if epoch == 1:
             # replace the first image
             image = Image.open('nerf.png').convert('RGB').resize((512, 512))
-            # white pil image
-            inpaint_mask = Image.new('RGB', (512, 512), (255, 255, 255))
+            # white single-channel pil image
+            inpaint_mask = Image.new('L', (512, 512), 255)
             # pil image to tensor
             transform = torchvision.transforms.ToTensor()
-            image = transform(image).unsqueeze(0).to(torch.float16)
-            inpaint_mask = transform(inpaint_mask).unsqueeze(0).to(torch.float16)
+            image = transform(image).unsqueeze(0)
+            inpaint_mask = transform(inpaint_mask)
+            # size
+            print('data size', image.shape, inpaint_mask.shape)
             model.init_images_masks(image, inpaint_mask)
         else:
             inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
