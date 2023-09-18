@@ -1,5 +1,5 @@
-runs_dir: output
-seed: 13
+runs_dir: output-1
+seed: 22
 frames: 10
 
 inpainting_prompt: "POV, walkthrough, a medieval dungeon with damp, stone corridors and flickering torches lining the walls, beautiful photo, masterpiece, indoor scene"
