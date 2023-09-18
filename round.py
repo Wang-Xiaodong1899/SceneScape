@@ -10,11 +10,11 @@ from omegaconf import OmegaConf
 from torch.cuda.amp import GradScaler
 from torchvision.transforms import ToPILImage
 from tqdm import tqdm
+from PIL import Image
 
 from models.warp_inpaint_model import WarpInpaintModel
 from util.finetune_utils import finetune_depth_model, finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
-
 
 def evaluate(model):
     fps = model.config["save_fps"]
@@ -78,12 +78,16 @@ def run(config):
         else:
             warp_output = model.warp_mesh(epoch, round_reverse=True)
 
-        inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
-
-        if config["finetune_decoder"]:
-            finetune_decoder(config, model, warp_output, inpaint_output)
-
-        model.update_images_masks(inpaint_output["latent"], warp_output["inpaint_mask"])
+        if epoch == 1:
+            # replace the first image
+            image = Image.open('nerf.png').convert('RGB').resize((512, 512))
+            inpaint_output = model.inpaint(image, warp_output["inpaint_mask"])
+            model.init_images_masks(image, warp_output["inpaint_mask"])
+        else:
+            inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
+            if config["finetune_decoder"]:
+                finetune_decoder(config, model, warp_output, inpaint_output)
+            model.update_images_masks(inpaint_output["latent"], warp_output["inpaint_mask"])
 
         if config["finetune_depth_model"]:
             # reload depth model

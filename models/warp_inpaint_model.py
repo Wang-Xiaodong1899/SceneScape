@@ -559,7 +559,7 @@ class WarpInpaintModel(torch.nn.Module):
                 self.config["mask_opening_kernel_size"],
                 device=inpaint_mask.device,
             )
-            inpaint_mask_opened = opening(inpaint_mask, kernel)
+            inpaint_mask_opened = opening(inpaint_mask, kernel) # opening operation
             mask_diff = inpaint_mask - inpaint_mask_opened
             warped_image = self.inpaint_cv2(warped_image, mask_diff)
             inpaint_mask = inpaint_mask_opened
@@ -645,6 +645,31 @@ class WarpInpaintModel(torch.nn.Module):
         return {"inpainted_image": inpainted_image, "latent": latent, "best_index": best_index}
 
     @torch.no_grad()
+    def inpaint_init(self, warped_image, inpaint_mask):
+        inpainted_images = self.inpainting_pipeline(
+            prompt=self.inpainting_prompt,
+            negative_prompt=self.config["negative_inpainting_prompt"],
+            image=warped_image,
+            mask_image=inpaint_mask,
+            num_inference_steps=self.config["num_inpainting_steps"],
+            callback_steps=self.config["num_inpainting_steps"] - 1,
+            callback=self.latent_storer,
+            guidance_scale=self.classifier_free_guidance_scale,
+            num_images_per_prompt=1,
+            height=self.config["inpainting_resolution"],
+            width=self.config["inpainting_resolution"],
+        ).images
+
+        best_index = 0
+        inpainted_image = inpainted_images[best_index]
+        latent = self.latent_storer.latent[[best_index]]
+        inpainted_image = ToTensor()(inpainted_image).unsqueeze(0).to(self.device)
+        latent = latent.float()
+
+        return {"inpainted_image": inpainted_image, "latent": latent, "best_index": best_index}
+
+
+    @torch.no_grad()
     def update_depth(self, inpainted_image):
         new_depth, new_disparity = self.get_depth(inpainted_image)
         self.depths.append(new_depth.detach())
@@ -664,8 +689,25 @@ class WarpInpaintModel(torch.nn.Module):
             decoded_image = decoded_image
             inpaint_mask = inpaint_mask
 
-        self.images.append(decoded_image)
-        self.masks.append(inpaint_mask)
+        self.images.append(decoded_image) # add images
+        self.masks.append(inpaint_mask) # add masks
+    
+    def init_images_masks(self, image, inpaint_mask):
+        decoded_image = image
+        # take center crop of 512*512
+        if self.config["inpainting_resolution"] > 512:
+            decoded_image = decoded_image[
+                :, :, self.border_size : -self.border_size, self.border_size : -self.border_size
+            ]
+            inpaint_mask = inpaint_mask[
+                :, :, self.border_size : -self.border_size, self.border_size : -self.border_size
+            ]
+        else:
+            decoded_image = decoded_image
+            inpaint_mask = inpaint_mask
+
+        self.images.append(decoded_image) # add images
+        self.masks.append(inpaint_mask) # add masks
 
     def decode_latents(self, latents):
         latents = 1 / 0.18215 * latents
