@@ -8,7 +8,8 @@ import numpy as np
 import torch
 from omegaconf import OmegaConf
 from torch.cuda.amp import GradScaler
-from torchvision.transforms import ToPILImage
+from torchvision.transforms import ToPILImage, ToTensor
+import torchvision
 from tqdm import tqdm
 from PIL import Image
 
@@ -83,6 +84,10 @@ def run(config):
             image = Image.open('nerf.png').convert('RGB').resize((512, 512))
             # white pil image
             inpaint_mask = Image.new('RGB', (512, 512), (255, 255, 255))
+            # pil image to tensor
+            transform = torchvision.transforms.ToTensor()
+            image = transform(image).unsqueeze(0)
+            inpaint_mask = transform(inpaint_mask).unsqueeze(0)
             model.init_images_masks(image, inpaint_mask)
         else:
             inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
