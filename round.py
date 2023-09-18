@@ -86,8 +86,8 @@ def run(config):
             inpaint_mask = Image.new('RGB', (512, 512), (255, 255, 255))
             # pil image to tensor
             transform = torchvision.transforms.ToTensor()
-            image = transform(image).unsqueeze(0)
-            inpaint_mask = transform(inpaint_mask).unsqueeze(0)
+            image = transform(image).unsqueeze(0).to(torch.float16)
+            inpaint_mask = transform(inpaint_mask).unsqueeze(0).to(torch.float16)
             model.init_images_masks(image, inpaint_mask)
         else:
             inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
