@@ -3,7 +3,7 @@ device: cuda
 negative_inpainting_prompt: "text, writings, signs, text, white border, photograph border, artifacts, blur, smooth texture, foggy, fog, bad quality, distortions, unrealistic, distorted image, watermark, signature, fisheye look, windows, people, crowd, outdoor, landscape, view, chandelier"
 
 # motion parameters
-motion: rotations # predefined, rotations, round
+motion: translations # predefined, rotations, round, translations
 extrinsics: null
 intrinsics: null
 camera_speed_factor: 0.035 #0.03 for indoors, 0.05 for outdoors
