@@ -78,6 +78,9 @@ def run(config):
         else:
             warp_output = model.warp_mesh(epoch)
 
+        print('data type of warped image: ', warp_output["warped_image"].dtype, warp_output["inpaint_mask"].dtype)
+        # size
+        print('data size', warp_output["warped_image"].shape, warp_output["inpaint_mask"].shape)
         inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
 
         if config["finetune_decoder"]:
