@@ -68,7 +68,7 @@ class WarpInpaintModel(torch.nn.Module):
         # ).images[0]
         
         # if given a init image
-        image = Image.open('/workspace/SceneScape/nerf.png').convert('RGB').resize((600, 600))
+        image = Image.open('/workspace/SceneScape/nerf.png').convert('RGB').resize((512, 512))
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
