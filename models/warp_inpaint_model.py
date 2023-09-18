@@ -75,8 +75,8 @@ class WarpInpaintModel(torch.nn.Module):
 
         self.current_camera = self.get_init_camera()
         if self.config["motion"] == "round":
-            self.initial_median_depth = torch.median(self.depth).item()
-            self.center_depth = self.depth[:, :, 256, 256].item()
+            self.initial_median_depth = torch.median(self.depth).item() # median depth of depth image
+            self.center_depth = self.depth[:, :, 256, 256].item() # center point of depth image
             self.current_camera = self.get_next_camera_round(0)
 
         elif self.config["motion"] == "rotations":
@@ -500,7 +500,7 @@ class WarpInpaintModel(torch.nn.Module):
         blurred_subsampled = blurred[:, :, ::stride, ::stride]
         return blurred_subsampled
 
-    def warp_mesh(self, epoch=None, camera=None):
+    def warp_mesh(self, epoch=None, camera=None, round_reverse=False):
         assert not (epoch is None and camera is None)
         if camera is None:
             if self.config["motion"] == "rotations":
@@ -508,7 +508,7 @@ class WarpInpaintModel(torch.nn.Module):
             elif self.config["motion"] == "translations":
                 camera = self.get_next_camera_translation(self.disparities[epoch - 1], epoch)
             elif self.config["motion"] == "round":
-                camera = self.get_next_camera_round(epoch)
+                camera = self.get_next_camera_round(epoch, reverse=round_reverse)
             elif self.config["motion"] == "predefined":
                 camera = self.predefined_cameras[epoch]
             else:
@@ -674,7 +674,7 @@ class WarpInpaintModel(torch.nn.Module):
 
         return images
 
-    def get_next_camera_round(self, epoch):
+    def get_next_camera_round(self, epoch, reverse=False):
         if self.config["rotate_radius"] == "median":
             r = 2 * self.initial_median_depth
         elif self.config["rotate_radius"] == "center":
@@ -684,6 +684,8 @@ class WarpInpaintModel(torch.nn.Module):
 
         next_camera = copy.deepcopy(self.current_camera)
         center = torch.tensor([[0.0, 0.0, r / 2]])
+        if reverse:
+            epoch = -1*epoch
         theta = torch.deg2rad((torch.tensor(epoch) * 360.0 / self.config["full_circle_epochs"]) % 360)
         x = torch.sin(theta)
         y = 0
