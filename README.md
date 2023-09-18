@@ -25,7 +25,7 @@ For the installation to be done correctly, please proceed only with CUDA-compati
 
 Clone the repo and create the environment:
 ```
-git clone https://github.com/rafailfridman/SceneScape.git
+git clone https://github.com/Wang-Xiaodong1899/SceneScape.git
 cd SceneScape
 conda create --name scenescape python=3.10
 conda activate scenescape 
