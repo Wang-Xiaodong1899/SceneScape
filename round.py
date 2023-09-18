@@ -81,8 +81,9 @@ def run(config):
         if epoch == 1:
             # replace the first image
             image = Image.open('nerf.png').convert('RGB').resize((512, 512))
-            inpaint_output = model.inpaint(image, warp_output["inpaint_mask"])
-            model.init_images_masks(image, warp_output["inpaint_mask"])
+            # white pil image
+            inpaint_mask = Image.new('RGB', (512, 512), (255, 255, 255))
+            model.init_images_masks(image, inpaint_mask)
         else:
             inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
             if config["finetune_decoder"]:
