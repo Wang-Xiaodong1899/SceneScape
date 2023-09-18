@@ -11,7 +11,7 @@ no_rotations_steps: 0
 rotation_steps: 10
 rotation_range: 0.03 #0.01
 rotate_radius: center # median, center, 0.1 (number)
-full_circle_epochs: 100
+full_circle_epochs: 360 # a degree per epoch
 change_translation_every: 20
 
 #rendering parameters
