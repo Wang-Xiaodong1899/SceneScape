@@ -66,6 +66,9 @@ class WarpInpaintModel(torch.nn.Module):
             num_inference_steps=self.config["num_inpainting_steps"],
             guidance_scale=self.config["classifier_free_guidance_scale"],
         ).images[0]
+        
+        # if given a init image
+        image = Image.open('../nerf.png').convert('RGB').resize((600, 600))
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
