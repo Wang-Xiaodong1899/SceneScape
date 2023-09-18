@@ -131,7 +131,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/dungeon.yaml",
+        default="./config/example_configs/nerf.yaml",
         help="Config path",
     )
     args = parser.parse_args()
