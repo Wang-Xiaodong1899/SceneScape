@@ -123,7 +123,7 @@ def run(config, prompt=None, image=None, round_reverse=False):
         model.images.append(image)
     
     # right
-    for epoch in tqdm(range(1, config["frames"] + 1)):
+    for epoch in tqdm(range(config["frames"] + 1, 2 * config["frames"] + 1)):
         if config["use_splatting"]:
             warp_output = model.warp_splatting(epoch)
         else:

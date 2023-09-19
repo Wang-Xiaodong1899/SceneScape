@@ -30,7 +30,7 @@ big_resolution: 1024
 init_focal_length: 500
 
 #decoder finetuning parameters
-finetune_decoder: False # retain the known regions
+finetune_decoder: True # retain the known regions
 decoder_learning_rate: 0.0001
 num_finetune_decoder_steps: 100
 preservation_weight: 100
