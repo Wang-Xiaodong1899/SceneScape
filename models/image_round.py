@@ -111,6 +111,7 @@ class WarpInpaintModel(torch.nn.Module):
         self.init_camera = copy.deepcopy(self.current_camera)
 
         self.images = [self.image_tensor]
+        self.save_images = []
         self.warped_mesh_images = []
         self.masks_diffs = []
         self.disparities = [self.disparity]
