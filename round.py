@@ -76,7 +76,7 @@ def run(config, prompt=None, image=None):
         if config["use_splatting"]:
             warp_output = model.warp_splatting(epoch)
         else:
-            warp_output = model.warp_mesh(epoch, round_reverse=False)
+            warp_output = model.warp_mesh(epoch, round_reverse=True)
 
         print('data type of warped image: ', warp_output["warped_image"].dtype, warp_output["inpaint_mask"].dtype)
         # size
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--prompt",
-        default="",
+        default="In a garden, a wooden table with a vase on it.",
         help="In a garden, a wooden table with a vase on it."
     )
     parser.add_argument(

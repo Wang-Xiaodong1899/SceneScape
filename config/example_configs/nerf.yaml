@@ -1,5 +1,3 @@
 runs_dir: nerf
 seed: 23
 frames: 8
-
-inpainting_prompt: "In a garden, a wooden table with a vase on it."
