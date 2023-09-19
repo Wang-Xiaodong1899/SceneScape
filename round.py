@@ -62,7 +62,7 @@ def evaluate_epoch(model, epoch):
             OmegaConf.save(model.config, f)
 
 
-def run(config, prompt=None, image=None, round_reverse=False):
+def run(config, prompt=None, image_path=None, round_reverse=False):
     seed = config["seed"]
     if seed == -1:
         seed = np.random.randint(2 ** 32)
@@ -70,7 +70,7 @@ def run(config, prompt=None, image=None, round_reverse=False):
     np.random.seed(seed)
     torch.manual_seed(seed)
     print(f"running with seed: {seed}.")
-    model = WarpInpaintModel(config, prompt, image).to(config["device"])
+    model = WarpInpaintModel(config, prompt, image_path).to(config["device"])
     evaluate_epoch(model, 0)
     scaler = GradScaler(enabled=config["enable_mix_precision"])
     # left
@@ -125,7 +125,7 @@ def run(config, prompt=None, image=None, round_reverse=False):
 
     gc.collect()
     torch.cuda.empty_cache()
-    model = WarpInpaintModel(config, prompt, image).to(config["device"])
+    model = WarpInpaintModel(config, prompt, image_path).to(config["device"])
     scaler = GradScaler(enabled=config["enable_mix_precision"])
     
     # right
