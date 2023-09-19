@@ -129,7 +129,7 @@ def run(config, prompt=None, image_path=None, round_reverse=False):
     scaler = GradScaler(enabled=config["enable_mix_precision"])
     
     # right
-    for epoch in tqdm(range(config["frames"] + 1, 2 * config["frames"] + 1)):
+    for epoch in tqdm(range(1, config["frames"] + 1)):
         if config["use_splatting"]:
             warp_output = model.warp_splatting(epoch)
         else:
