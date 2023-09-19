@@ -44,7 +44,7 @@ inpainting_resolution: 600
 #depth finetuning parameters
 finetune_depth_model: True
 depth_model_learning_rate: 1e-7
-num_finetune_depth_model_steps: 50
+num_finetune_depth_model_steps: 300
 
 save_fps: 10
 use_xformers: False
