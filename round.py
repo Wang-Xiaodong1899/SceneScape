@@ -119,7 +119,7 @@ def run(config, prompt=None, image=None, round_reverse=False):
         gc.collect()
     
     left_images = model.images
-    for image in reversed(left_images)[1:-1]:
+    for image in reversed(left_images[:-1]):
         model.images.append(image)
     
     # right
