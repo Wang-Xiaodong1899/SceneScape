@@ -61,7 +61,7 @@ def evaluate_epoch(model, epoch):
             OmegaConf.save(model.config, f)
 
 
-def run(config, prompt=None, image=None):
+def run(config, prompt=None, image=None, round_reverse=False):
     seed = config["seed"]
     if seed == -1:
         seed = np.random.randint(2 ** 32)
@@ -76,7 +76,7 @@ def run(config, prompt=None, image=None):
         if config["use_splatting"]:
             warp_output = model.warp_splatting(epoch)
         else:
-            warp_output = model.warp_mesh(epoch, round_reverse=True)
+            warp_output = model.warp_mesh(epoch, round_reverse=round_reverse)
 
         print('data type of warped image: ', warp_output["warped_image"].dtype, warp_output["inpaint_mask"].dtype)
         # size
@@ -143,9 +143,17 @@ if __name__ == "__main__":
         default="/workspace/SceneScape/nerf.png",
         help="image path"
     )
+    parser.add_argument(
+        "--round_reverse",
+        default=False,
+        type=bool,
+        action="store_true",
+        help="round reverse"
+    )
+    
     args = parser.parse_args()
     base_config = OmegaConf.load(args.base_config)
     example_config = OmegaConf.load(args.example_config)
     config = OmegaConf.merge(base_config, example_config)
 
-    run(config, args.prompt, args.image)
+    run(config, args.prompt, args.image, args.round_reverse)
