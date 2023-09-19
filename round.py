@@ -15,6 +15,7 @@ from models.image_round import WarpInpaintModel
 from util.finetune_utils import finetune_depth_model, finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
 
+round_images = []
 
 def evaluate(model):
     fps = model.config["save_fps"]
@@ -31,7 +32,7 @@ def evaluate(model):
     if not model.config["use_splatting"]:
         model.save_mesh("full_mesh")
 
-    video = (255 * torch.cat(model.images, dim=0)).to(torch.uint8).detach().cpu()
+    video = (255 * torch.cat(round_images, dim=0)).to(torch.uint8).detach().cpu()
     # video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
 
     save_video(video, save_root / "output.mp4", fps=fps)
@@ -120,7 +121,12 @@ def run(config, prompt=None, image=None, round_reverse=False):
     
     left_images = model.images
     for image in reversed(left_images[:-1]):
-        model.images.append(image)
+        round_images.append(image)
+
+    gc.collect()
+    torch.cuda.empty_cache()
+    model = WarpInpaintModel(config, prompt, image).to(config["device"])
+    scaler = GradScaler(enabled=config["enable_mix_precision"])
     
     # right
     for epoch in tqdm(range(config["frames"] + 1, 2 * config["frames"] + 1)):
@@ -167,6 +173,10 @@ def run(config, prompt=None, image=None, round_reverse=False):
 
         torch.cuda.empty_cache()
         gc.collect()
+
+    right_images = model.images
+    for image in right_images:
+        round_images.append(image)
 
     evaluate(model)
 
