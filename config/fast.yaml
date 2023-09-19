@@ -30,7 +30,7 @@ big_resolution: 1024
 init_focal_length: 500
 
 #decoder finetuning parameters
-finetune_decoder: True # retain the known regions
+finetune_decoder: False # retain the known regions
 decoder_learning_rate: 0.0001
 num_finetune_decoder_steps: 100
 preservation_weight: 100
@@ -44,7 +44,7 @@ inpainting_resolution: 600
 #depth finetuning parameters
 finetune_depth_model: True
 depth_model_learning_rate: 1e-7
-num_finetune_depth_model_steps: 300
+num_finetune_depth_model_steps: 50
 
 save_fps: 10
 use_xformers: False
