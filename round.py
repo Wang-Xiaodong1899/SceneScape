@@ -32,10 +32,10 @@ def evaluate(model):
         model.save_mesh("full_mesh")
 
     video = (255 * torch.cat(model.images, dim=0)).to(torch.uint8).detach().cpu()
-    video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
+    # video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
 
     save_video(video, save_root / "output.mp4", fps=fps)
-    save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
+    # save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
 
 
 def evaluate_epoch(model, epoch):
@@ -72,11 +72,62 @@ def run(config, prompt=None, image=None, round_reverse=False):
     model = WarpInpaintModel(config, prompt, image).to(config["device"])
     evaluate_epoch(model, 0)
     scaler = GradScaler(enabled=config["enable_mix_precision"])
+    # left
     for epoch in tqdm(range(1, config["frames"] + 1)):
         if config["use_splatting"]:
             warp_output = model.warp_splatting(epoch)
         else:
             warp_output = model.warp_mesh(epoch, round_reverse=round_reverse)
+
+        print('data type of warped image: ', warp_output["warped_image"].dtype, warp_output["inpaint_mask"].dtype)
+        # size
+        print('data size', warp_output["warped_image"].shape, warp_output["inpaint_mask"].shape)
+        inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
+
+        if config["finetune_decoder"]:
+            finetune_decoder(config, model, warp_output, inpaint_output)
+
+        model.update_images_masks(inpaint_output["latent"], warp_output["inpaint_mask"])
+
+        if config["finetune_depth_model"]:
+            # reload depth model
+            del model.depth_model
+            gc.collect()
+            torch.cuda.empty_cache()
+            model.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(model.device)
+
+            finetune_depth_model(config, model, warp_output, epoch, scaler)
+
+        model.update_depth(model.images[epoch])
+
+        if not config["use_splatting"]:
+            # update mesh with the correct mask
+            if config["mask_opening_kernel_size"] > 0:
+                mesh_mask = 1 - torch.maximum(model.masks[epoch], model.masks_diffs[epoch - 1])
+            else:
+                mesh_mask = 1 - model.masks[epoch]
+            extrinsic = model.get_extrinsics(model.current_camera)
+            model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
+
+        # reload decoder
+        model.vae.decoder = copy.deepcopy(model.decoder_copy)
+
+        model.images_orig_decoder.append(model.decode_latents(inpaint_output["latent"]).detach())
+        evaluate_epoch(model, epoch)
+
+        torch.cuda.empty_cache()
+        gc.collect()
+    
+    left_images = model.images
+    for image in reversed(left_images)[1:-1]:
+        model.images.append(image)
+    
+    # right
+    for epoch in tqdm(range(1, config["frames"] + 1)):
+        if config["use_splatting"]:
+            warp_output = model.warp_splatting(epoch)
+        else:
+            warp_output = model.warp_mesh(epoch, round_reverse=not round_reverse)
 
         print('data type of warped image: ', warp_output["warped_image"].dtype, warp_output["inpaint_mask"].dtype)
         # size
