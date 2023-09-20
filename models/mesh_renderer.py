@@ -43,9 +43,12 @@ class Renderer:
     def __init__(self, config, image_size=512, antialiasing_factor=1):
         self.device = config["device"]
         fl = antialiasing_factor * config["init_focal_length"]
+        fl1 = 0.90174353 * image_size
+        fl2 = 1.6036477 * image_size
         principal_point = image_size / 2
+        print("principal_point", principal_point)
         self.K = torch.tensor(
-            [[fl, 0.0, principal_point], [0.0, fl, principal_point], [0.0, 0.0, 1.0]], device=self.device
+            [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
         )
         self.image_size = image_size
         self.raster_settings = RasterizationSettings(
