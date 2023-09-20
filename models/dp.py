@@ -109,7 +109,7 @@ class WarpInpaintModel(torch.nn.Module):
             Rs, ts = extrinsics[:, :3, :3], extrinsics[:, :3, 3]
 
             # PerspectiveCameras operate on row-vector matrices while the loaded extrinsics are column-vector matrices
-            Rs = Rs.movedim(1, 2)
+            # Rs = Rs.movedim(1, 2)
 
             self.predefined_cameras = [
                 PerspectiveCameras(K=K.unsqueeze(0), R=R.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
