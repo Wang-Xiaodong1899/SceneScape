@@ -46,7 +46,7 @@ class Renderer:
         fl1 = 0.90174353 * image_size
         fl2 = 1.6036477 * image_size
         principal_point = image_size / 2
-        print("principal_point", principal_point)
+        print("principal_point", principal_point, antialiasing_factor)
         self.K = torch.tensor(
             [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
         )
