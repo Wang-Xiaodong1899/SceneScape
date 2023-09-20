@@ -67,6 +67,7 @@ class Renderer:
         points_3d_transformed = extrinsic @ points_3d
         
         print('sampling points extrinsic: ', extrinsic)
+        print(self.K)
 
         cameras = PerspectiveCameras(
             device=self.device,
