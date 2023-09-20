@@ -4,8 +4,8 @@ negative_inpainting_prompt: "text, writings, signs, text, white border, photogra
 
 # motion parameters
 motion: predefined # predefined, rotations, round, translations
-extrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample_2_extri.npy'
-intrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample_2_intri.npy'
+extrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample_3_extri.npy'
+intrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample_3_intri.npy'
 camera_speed_factor: 0.035 #0.03 for indoors, 0.05 for outdoors
 no_rotations_steps: 0
 rotation_steps: 10
