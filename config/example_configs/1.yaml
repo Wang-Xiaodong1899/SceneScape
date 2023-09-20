@@ -1,5 +1,5 @@
 runs_dir: 3dp
 seed: -1
-frames: 2
+frames: 1
 
 inpainting_prompt: "A car with its trunk open stopped in front of the steps"
