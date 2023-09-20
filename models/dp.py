@@ -179,6 +179,7 @@ class WarpInpaintModel(torch.nn.Module):
             self.aa_renderer = Renderer(config, image_size=512 * aa_factor, antialiasing_factor=aa_factor)
             self.big_image_renderer = Renderer(config, image_size=512 * (aa_factor + 1), antialiasing_factor=aa_factor)
             self.update_mesh(self.image_tensor, self.depth, mesh_mask, self.get_extrinsics(self.current_camera), 0)
+            print('update mesh...')
 
     def save_mesh(self, name):
         full_mesh = trimesh.Trimesh(
@@ -264,7 +265,7 @@ class WarpInpaintModel(torch.nn.Module):
             self.depth_discontinuities_masks.append(boundaries_mask)
         else:
             boundaries_mask = None
-
+        print(f'{epoch}, {extrinsic}')
         mesh_dict = self.renderer.unproject_points(
             updated_depth,
             image,
