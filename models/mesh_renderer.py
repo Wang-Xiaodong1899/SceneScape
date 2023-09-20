@@ -65,6 +65,8 @@ class Renderer:
     def sample_points(self, points_3d, triangles, colors, extrinsic):
         points_3d = torch.cat((points_3d, torch.ones(points_3d.shape[0], 1, device=points_3d.device)), dim=1).T
         points_3d_transformed = extrinsic @ points_3d
+        
+        print('sampling points extrinsic: ', extrinsic)
 
         cameras = PerspectiveCameras(
             device=self.device,
