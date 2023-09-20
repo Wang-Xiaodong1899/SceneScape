@@ -11,7 +11,7 @@ from torch.cuda.amp import GradScaler
 from torchvision.transforms import ToPILImage
 from tqdm import tqdm
 
-from models.warp_inpaint_model import WarpInpaintModel
+from models.dp import WarpInpaintModel
 from util.finetune_utils import finetune_depth_model, finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
 
@@ -125,12 +125,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/fast.yaml",
+        default="./config/dp.yaml",
         help="Config path",
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/nerf.yaml",
+        default="./config/example_configs/1.yaml",
         help="Config path",
     )
     args = parser.parse_args()
