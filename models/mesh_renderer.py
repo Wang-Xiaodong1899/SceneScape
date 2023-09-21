@@ -48,7 +48,7 @@ class Renderer:
         principal_point = image_size / 2
         print("principal_point", principal_point, antialiasing_factor)
         self.K = torch.tensor(
-            [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
+            [[fl2, 0.0, principal_point], [0.0, fl1, principal_point], [0.0, 0.0, 1.0]], device=self.device
         )
         self.image_size = image_size
         self.raster_settings = RasterizationSettings(
