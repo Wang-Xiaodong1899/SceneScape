@@ -32,7 +32,7 @@ class WarpInpaintModel(torch.nn.Module):
     def __init__(self, config):
         super().__init__()
         if config["use_splatting"]:
-            sys.path.append("util/softmax-splatting")
+            sys.path.append("/workspace/SceneScape/util/softmax-splatting")
             import softsplat
 
         # get current date and time up to minutes
