@@ -17,11 +17,11 @@ change_translation_every: 20
 #rendering parameters
 use_splatting: False
 blur_radius: 1e-13 # 1e-13 for without aa, 1e-6 for with aa #0.0000000000001
-mesh_exclude_boundaries: True
+mesh_exclude_boundaries: False
 min_triangle_angle: -1 #2
 normal_filtering_threshold:  #-0.05 #-0.05, null for no filtering
 min_connected_component_size: 0 #1000 number of triangles
-connect_mesh: True
+connect_mesh: False
 fix_floating_artifacts: False
 antialiasing_factor: 1 # 1 for no aa, 2 for aa
 big_resolution: 1024
