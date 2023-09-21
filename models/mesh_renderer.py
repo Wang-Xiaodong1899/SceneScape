@@ -69,11 +69,21 @@ class Renderer:
         print('sampling points extrinsic: ', extrinsic)
         print(self.K)
 
+        # cameras = PerspectiveCameras(
+        #     device=self.device,
+        #     R=torch.eye(3).unsqueeze(0),
+        #     in_ndc=False,
+        #     T=torch.zeros(1, 3),
+        #     focal_length=-self.K.diag()[:2].unsqueeze(0),
+        #     principal_point=self.K[:2, 2].unsqueeze(0),
+        #     image_size=torch.ones(1, 2) * self.image_size,
+        # )
+        
         cameras = PerspectiveCameras(
             device=self.device,
-            R=torch.eye(3).unsqueeze(0),
+            R=extrinsic[:, :3].unsqueeze(0),
             in_ndc=False,
-            T=torch.zeros(1, 3),
+            T=extrinsic[:, 3].unsqueeze(0)
             focal_length=-self.K.diag()[:2].unsqueeze(0),
             principal_point=self.K[:2, 2].unsqueeze(0),
             image_size=torch.ones(1, 2) * self.image_size,
