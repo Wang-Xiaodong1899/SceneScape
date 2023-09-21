@@ -81,7 +81,7 @@ class Renderer:
         
         cameras = PerspectiveCameras(
             device=self.device,
-            R=extrinsic[:, :3].unsqueeze(0),
+            R=extrinsic[:3, :3].unsqueeze(0),
             in_ndc=False,
             T=extrinsic[:3, 3].unsqueeze(0),
             focal_length=-self.K.diag()[:2].unsqueeze(0),
