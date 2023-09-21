@@ -79,6 +79,8 @@ class Renderer:
         #     image_size=torch.ones(1, 2) * self.image_size,
         # )
         
+        extrinsic = extrinsic.inverse()
+        
         cameras = PerspectiveCameras(
             device=self.device,
             R=extrinsic[:3, :3].unsqueeze(0),
