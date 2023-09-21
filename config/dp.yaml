@@ -15,7 +15,7 @@ full_circle_epochs: 360 # a degree per epoch
 change_translation_every: 20
 
 #rendering parameters
-use_splatting: False
+use_splatting: True
 blur_radius: 1e-13 # 1e-13 for without aa, 1e-6 for with aa #0.0000000000001
 mesh_exclude_boundaries: False
 min_triangle_angle: -1 #2
