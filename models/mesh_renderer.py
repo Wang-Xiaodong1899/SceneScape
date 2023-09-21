@@ -43,8 +43,8 @@ class Renderer:
     def __init__(self, config, image_size=512, antialiasing_factor=1):
         self.device = config["device"]
         fl = antialiasing_factor * config["init_focal_length"]
-        fl1 = 0.90174353 
-        fl2 = 1.6036477
+        fl1 = 0.90174353 * image_size
+        fl2 = 1.6036477 * image_size
         principal_point = image_size / 2
         print("principal_point", principal_point, antialiasing_factor)
         self.K = torch.tensor(
@@ -69,27 +69,27 @@ class Renderer:
         print('sampling points extrinsic: ', extrinsic)
         print(self.K)
 
-        cameras = PerspectiveCameras(
-            device=self.device,
-            R=torch.eye(3).unsqueeze(0),
-            in_ndc=False,
-            T=torch.zeros(1, 3),
-            focal_length=-self.K.diag()[:2].unsqueeze(0),
-            principal_point=self.K[:2, 2].unsqueeze(0),
-            image_size=torch.ones(1, 2) * self.image_size,
-        )
-        
-        # extrinsic = extrinsic.inverse()
-        
         # cameras = PerspectiveCameras(
         #     device=self.device,
-        #     R=extrinsic[:3, :3].unsqueeze(0),
+        #     R=torch.eye(3).unsqueeze(0),
         #     in_ndc=False,
-        #     T=extrinsic[:3, 3].unsqueeze(0),
+        #     T=torch.zeros(1, 3),
         #     focal_length=-self.K.diag()[:2].unsqueeze(0),
         #     principal_point=self.K[:2, 2].unsqueeze(0),
         #     image_size=torch.ones(1, 2) * self.image_size,
         # )
+        
+        # extrinsic = extrinsic.inverse()
+        
+        cameras = PerspectiveCameras(
+            device=self.device,
+            R=extrinsic[:3, :3].unsqueeze(0),
+            in_ndc=False,
+            T=extrinsic[:3, 3].unsqueeze(0),
+            focal_length=-self.K.diag()[:2].unsqueeze(0),
+            principal_point=self.K[:2, 2].unsqueeze(0),
+            image_size=torch.ones(1, 2) * self.image_size,
+        )
 
         mesh = Meshes(
             points_3d_transformed[:3].T.unsqueeze(0),
