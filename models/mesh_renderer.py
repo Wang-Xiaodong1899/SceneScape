@@ -83,7 +83,7 @@ class Renderer:
             device=self.device,
             R=extrinsic[:, :3].unsqueeze(0),
             in_ndc=False,
-            T=extrinsic[:, 3].unsqueeze(0),
+            T=extrinsic[:3, 3].unsqueeze(0),
             focal_length=-self.K.diag()[:2].unsqueeze(0),
             principal_point=self.K[:2, 2].unsqueeze(0),
             image_size=torch.ones(1, 2) * self.image_size,
