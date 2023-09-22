@@ -393,7 +393,7 @@ class WarpInpaintModel(torch.nn.Module):
         # splatting only use the predefined camera
         next_camera = self.convert_pytorch3d_kornia(camera)
         current_camera = self.convert_pytorch3d_kornia(self.current_camera)
-        points_3d = current_camera.unproject(self.points, rearrange(self.depths[epoch - 1], "b c h w -> (w h b) c"))
+        points_3d = current_camera.unproject(self.points, rearrange(self.depths[epoch - 1], "b c h w -> (w h b) c")) # already use instrisic actually
         P = next_camera.intrinsics @ next_camera.extrinsics
         transformed_points = transform_points(P, points_3d)
         transformed_z = transformed_points[:, [2]]
@@ -634,6 +634,9 @@ class WarpInpaintModel(torch.nn.Module):
         K[0, 1, 2] = 256
         K[0, 0, 0] = self.config["init_focal_length_f1"] 
         K[0, 1, 1] = self.config["init_focal_length_f2"]
+        print('PinholeCamera:')
+        print(f'intrisinc: {K}')
+        print(f'extrinsic: {extrinsics}')
         return PinholeCamera(K, extrinsics, h, w)
 
     def finetune_depth_model_step(self, warped_depth, inpainted_image, mask):
