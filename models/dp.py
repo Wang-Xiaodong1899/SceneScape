@@ -116,26 +116,26 @@ class WarpInpaintModel(torch.nn.Module):
             
             # print('instrisic: ', Ks)
 
-            # self.predefined_cameras = [
-            #     PerspectiveCameras(K=K.unsqueeze(0), R=R.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
-            #     for K, R, t in zip(Ks, Rs, ts)
-            # ]
-            
-            self.kk = torch.tensor(
-                intrinsics[0], device=self.device
-            )
-            
             self.predefined_cameras = [
-                PerspectiveCameras(
-                    device=self.device,
-                    in_ndc=False,
-                    R=RR.unsqueeze(0), 
-                    T=tt.unsqueeze(0),
-                    focal_length=-self.kk.diag()[:2].unsqueeze(0),
-                    principal_point=self.kk[:2, 2].unsqueeze(0),
-                    image_size=torch.ones(1, 2) * 512,
-                ) for _, RR, tt in zip(Ks, Rs, ts)
+                PerspectiveCameras(K=K.unsqueeze(0), R=R.T.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
+                for K, R, t in zip(Ks, Rs, ts)
             ]
+            
+            # self.kk = torch.tensor(
+            #     intrinsics[0], device=self.device
+            # )
+            
+            # self.predefined_cameras = [
+            #     PerspectiveCameras(
+            #         device=self.device,
+            #         in_ndc=False,
+            #         R=RR.unsqueeze(0), 
+            #         T=tt.unsqueeze(0),
+            #         focal_length=-self.kk.diag()[:2].unsqueeze(0),
+            #         principal_point=self.kk[:2, 2].unsqueeze(0),
+            #         image_size=torch.ones(1, 2) * 512,
+            #     ) for _, RR, tt in zip(Ks, Rs, ts)
+            # ]
             
             
             self.current_camera = self.predefined_cameras[0]
