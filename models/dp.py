@@ -253,6 +253,8 @@ class WarpInpaintModel(torch.nn.Module):
         return triangles[~bad_faces_mask]
 
     def update_mesh(self, image, depth, mask, extrinsic, epoch):
+        
+        print('depth mask: ', (mask==1).sum())
 
         updated_depth = depth.clone()
         updated_depth[mask] = -1
