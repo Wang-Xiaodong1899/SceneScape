@@ -122,8 +122,8 @@ class WarpInpaintModel(torch.nn.Module):
             # ]
             image_size = 512
             
-            fl1 = 0.8997432 * image_size
-            fl2 = 1.611052 * image_size
+            fl1 = 0.8997432
+            fl2 = 1.611052
             principal_point = image_size / 2
             K = torch.tensor(
                 [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
