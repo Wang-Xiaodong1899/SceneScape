@@ -57,6 +57,8 @@ def apply_depth_colormap(
     depth = (depth - near_plane) / (far_plane - near_plane + 1e-10)
     depth = torch.clip(depth, 0, 1)
 
+    print(torch.min(depth), torch.max(depth))
+
     colored_image = apply_colormap(depth, cmap=cmap)
 
     return colored_image
