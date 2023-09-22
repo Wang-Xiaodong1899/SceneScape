@@ -1,4 +1,4 @@
-runs_dir: sample5_bmm_extri
+runs_dir: fix_convert_pytorch3d_kornia
 seed: -1
 frames: 1
 
