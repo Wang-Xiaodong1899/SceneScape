@@ -106,7 +106,7 @@ def run(config):
             else:
                 mesh_mask = 1 - model.masks[epoch]
             extrinsic = model.get_extrinsics(model.current_camera)
-            model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
+            # model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
 
         # reload decoder
         model.vae.decoder = copy.deepcopy(model.decoder_copy)
