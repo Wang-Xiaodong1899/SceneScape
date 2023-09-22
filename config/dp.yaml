@@ -4,8 +4,8 @@ negative_inpainting_prompt: "text, writings, signs, text, white border, photogra
 
 # motion parameters
 motion: predefined # predefined, rotations, round, translations
-extrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample5_extri.npy'
-intrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/sample5_intri.npy'
+extrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/car_extri.npy'
+intrinsics: '/scratch/f_data/G/dataset/MannequinChallenge/car_intri_float.npy'
 camera_speed_factor: 0.035 #0.03 for indoors, 0.05 for outdoors
 no_rotations_steps: 0
 rotation_steps: 10
@@ -27,8 +27,8 @@ antialiasing_factor: 1 # 1 for no aa, 2 for aa
 big_resolution: 1024
 
 #camera parameters
-init_focal_length_f1: 413.13293
-init_focal_length_f2: 735.35364
+init_focal_length_f1: 461.69268736
+init_focal_length_f2: 821.0676224
 
 #decoder finetuning parameters
 finetune_decoder: True # retain the known regions

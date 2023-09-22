@@ -1,5 +1,5 @@
-runs_dir: kornia_focal_no_image_size
+runs_dir: test_splat
 seed: -1
 frames: 1
 
-inpainting_prompt: "A boy is installing a light bulb"
+inpainting_prompt: "A car with its trunk open parked in front of the steps"
