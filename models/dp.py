@@ -390,6 +390,7 @@ class WarpInpaintModel(torch.nn.Module):
             camera = self.predefined_cameras[epoch]
         else:
             raise NotImplementedError
+        # splatting only use the predefined camera
         next_camera = self.convert_pytorch3d_kornia(camera)
         current_camera = self.convert_pytorch3d_kornia(self.current_camera)
         points_3d = current_camera.unproject(self.points, rearrange(self.depths[epoch - 1], "b c h w -> (w h b) c"))
