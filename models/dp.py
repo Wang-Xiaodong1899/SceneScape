@@ -79,7 +79,7 @@ class WarpInpaintModel(torch.nn.Module):
         with torch.no_grad():
             self.depth, self.disparity = self.get_depth(self.image_tensor)
 
-        self.current_camera = self.get_init_camera()
+        # self.current_camera = self.get_init_camera()
         if self.config["motion"] == "round":
             self.initial_median_depth = torch.median(self.depth).item() # median depth of depth image
             self.center_depth = self.depth[:, :, 256, 256].item() # center point of depth image
