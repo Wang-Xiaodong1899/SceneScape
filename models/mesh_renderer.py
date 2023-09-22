@@ -47,6 +47,7 @@ class Renderer:
         # fl2 = 1.6036477 * image_size
         # fl1 = 0.784361 * image_size
         # fl2 = 1.3987232 * image_size
+        # need edit
         fl1 = 0.8997432
         fl2 = 1.611052
         

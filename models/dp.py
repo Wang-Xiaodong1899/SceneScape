@@ -120,22 +120,19 @@ class WarpInpaintModel(torch.nn.Module):
             #     PerspectiveCameras(K=K.unsqueeze(0), R=R.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
             #     for K, R, t in zip(Ks, Rs, ts)
             # ]
-            image_size = 512
             
-            fl1 = 0.8997432
-            fl2 = 1.611052
-            principal_point = image_size / 2
-            K = torch.tensor(
-                [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
+            self.kk = torch.tensor(
+                intrinsics[0], device=self.device
             )
+            
             self.predefined_cameras = [
                 PerspectiveCameras(
                     device=self.device,
                     in_ndc=False,
                     R=RR.unsqueeze(0), 
                     T=tt.unsqueeze(0),
-                    focal_length=-K.diag()[:2].unsqueeze(0),
-                    principal_point=K[:2, 2].unsqueeze(0),
+                    focal_length=-self.kk.diag()[:2].unsqueeze(0),
+                    principal_point=self.kk[:2, 2].unsqueeze(0),
                     image_size=torch.ones(1, 2) * 512,
                 ) for _, RR, tt in zip(Ks, Rs, ts)
             ]
