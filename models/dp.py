@@ -547,7 +547,7 @@ class WarpInpaintModel(torch.nn.Module):
                 raise NotImplementedError
         extrinsic = self.get_extrinsics(camera)
 
-        warped_image, inpaint_mask, warped_depth, closest_faces, fragments = self.aa_renderer.sample_points(
+        warped_image, inpaint_mask, warped_depth, closest_faces, fragments = self.renderer.sample_points(
             self.current_points_3d, self.current_triangles, self.current_colors, extrinsic
         )
         print('saving original warped image...')
