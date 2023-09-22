@@ -632,8 +632,8 @@ class WarpInpaintModel(torch.nn.Module):
         K = torch.eye(4)[None].to("cuda")
         K[0, 0, 2] = 256
         K[0, 1, 2] = 256
-        K[0, 0, 0] = self.config["init_focal_length_f1"] 
-        K[0, 1, 1] = self.config["init_focal_length_f2"]
+        K[0, 0, 0] = self.config["init_focal_length_f1"] / 512
+        K[0, 1, 1] = self.config["init_focal_length_f2"] / 512
         print('PinholeCamera:')
         print(f'intrisinc: {K}')
         print(f'extrinsic: {extrinsics}')

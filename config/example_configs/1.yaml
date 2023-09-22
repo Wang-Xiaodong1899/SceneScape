@@ -1,4 +1,4 @@
-runs_dir: fix_convert_pytorch3d_kornia
+runs_dir: kornia_focal_no_image_size
 seed: -1
 frames: 1
 
