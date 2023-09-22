@@ -621,7 +621,7 @@ class WarpInpaintModel(torch.nn.Module):
             "mesh_boundaries_mask": mesh_boundaries_mask,
         }
 
-    def convert_pytorch3d_kornia(self, camera):
+    def convert_pytorch3d_kornia(self, camera): # need edit
         R = camera.R
         T = camera.T
         extrinsics = torch.eye(4, device=R.device).unsqueeze(0)
@@ -632,8 +632,8 @@ class WarpInpaintModel(torch.nn.Module):
         K = torch.eye(4)[None].to("cuda")
         K[0, 0, 2] = 256
         K[0, 1, 2] = 256
-        K[0, 0, 0] = self.config["init_focal_length"]
-        K[0, 1, 1] = self.config["init_focal_length"]
+        K[0, 0, 0] = self.config["init_focal_length_f1"] 
+        K[0, 1, 1] = self.config["init_focal_length_f2"]
         return PinholeCamera(K, extrinsics, h, w)
 
     def finetune_depth_model_step(self, warped_depth, inpainted_image, mask):
