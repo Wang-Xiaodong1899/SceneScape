@@ -2,4 +2,4 @@ runs_dir: dp3
 seed: -1
 frames: 1
 
-inpainting_prompt: "some people sitting in a room full of chairs"
+inpainting_prompt: "a man standing on the grass"
