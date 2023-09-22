@@ -1,5 +1,5 @@
-runs_dir: dp3
+runs_dir: test3dp
 seed: -1
 frames: 1
 
-inpainting_prompt: "a man standing on the grass"
+inpainting_prompt: "A boy is installing a light bulb"

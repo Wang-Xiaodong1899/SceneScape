@@ -48,8 +48,8 @@ class Renderer:
         # fl1 = 0.784361 * image_size
         # fl2 = 1.3987232 * image_size
         # need edit
-        fl1 = 0.8997432
-        fl2 = 1.611052
+        fl1 = 0.80690026
+        fl2 = 1.4362376
         
         
         principal_point = image_size / 2
