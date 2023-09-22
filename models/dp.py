@@ -114,12 +114,33 @@ class WarpInpaintModel(torch.nn.Module):
             # PerspectiveCameras operate on row-vector matrices while the loaded extrinsics are column-vector matrices
             Rs = Rs.movedim(1, 2)
             
-            print('instrisic: ', Ks)
+            # print('instrisic: ', Ks)
 
+            # self.predefined_cameras = [
+            #     PerspectiveCameras(K=K.unsqueeze(0), R=R.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
+            #     for K, R, t in zip(Ks, Rs, ts)
+            # ]
+            image_size = 512
+            
+            fl1 = 0.90174353 * image_size
+            fl2 = 1.6036477 * image_size
+            principal_point = image_size / 2
+            K = torch.tensor(
+                [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
+            )
             self.predefined_cameras = [
-                PerspectiveCameras(K=K.unsqueeze(0), R=R.unsqueeze(0), T=t.unsqueeze(0), device=self.device)
-                for K, R, t in zip(Ks, Rs, ts)
+                PerspectiveCameras(
+                    device=self.device,
+                    in_ndc=False,
+                    R=RR.unsqueeze(0), 
+                    T=tt.unsqueeze(0),
+                    focal_length=-K.diag()[:2].unsqueeze(0),
+                    principal_point=K[:2, 2].unsqueeze(0),
+                    image_size=torch.ones(1, 2) * 512,
+                ) for _, RR, tt in zip(Ks, Rs, ts)
             ]
+            
+            
             self.current_camera = self.predefined_cameras[0]
 
         self.init_camera = copy.deepcopy(self.current_camera)
