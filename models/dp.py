@@ -527,6 +527,7 @@ class WarpInpaintModel(torch.nn.Module):
         warped_image, inpaint_mask, warped_depth, closest_faces, fragments = self.aa_renderer.sample_points(
             self.current_points_3d, self.current_triangles, self.current_colors, extrinsic
         )
+        print('saving original warped image...')
         ToPILImage()(warped_image[0]).save("/workspace/ori_warp.png")
 
         warped_image = warped_image.clip(0, 1)
