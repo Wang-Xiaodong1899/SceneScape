@@ -1,5 +1,5 @@
-runs_dir: 3dp
+runs_dir: dp3
 seed: -1
 frames: 1
 
-inpainting_prompt: "A car with its trunk open stopped in front of the steps"
+inpainting_prompt: "some people sitting in a room full of chairs"

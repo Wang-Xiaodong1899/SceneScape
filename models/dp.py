@@ -122,8 +122,8 @@ class WarpInpaintModel(torch.nn.Module):
             # ]
             image_size = 512
             
-            fl1 = 0.90174353 * image_size
-            fl2 = 1.6036477 * image_size
+            fl1 = 0.784361 * image_size
+            fl2 = 1.3987232 * image_size
             principal_point = image_size / 2
             K = torch.tensor(
                 [[fl1, 0.0, principal_point], [0.0, fl2, principal_point], [0.0, 0.0, 1.0]], device=self.device
@@ -202,10 +202,10 @@ class WarpInpaintModel(torch.nn.Module):
         else:
             aa_factor = self.config["antialiasing_factor"]
             self.renderer = Renderer(config, image_size=512)
-            self.aa_renderer = Renderer(config, image_size=512 * aa_factor, antialiasing_factor=aa_factor)
-            self.big_image_renderer = Renderer(config, image_size=512 * (aa_factor + 1), antialiasing_factor=aa_factor)
+            # self.aa_renderer = Renderer(config, image_size=512 * aa_factor, antialiasing_factor=aa_factor)
+            # self.big_image_renderer = Renderer(config, image_size=512 * (aa_factor + 1), antialiasing_factor=aa_factor)
             self.update_mesh(self.image_tensor, self.depth, mesh_mask, self.get_extrinsics(self.current_camera), 0)
-            print('update mesh...') # only this time
+            print('First Initialize mesh...') # only this time
 
     def save_mesh(self, name):
         full_mesh = trimesh.Trimesh(
