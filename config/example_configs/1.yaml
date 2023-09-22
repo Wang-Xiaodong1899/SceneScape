@@ -1,5 +1,5 @@
-runs_dir: test_mesh
+runs_dir: test_sample10_int
 seed: -1
 frames: 1
 
-inpainting_prompt: "A car with its trunk open parked in front of the steps"
+inpainting_prompt: "Teacher and students in classroom"
