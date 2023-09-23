@@ -55,12 +55,12 @@ class Renderer:
         # fl2 = 1.611052 * image_size
 
         # light
-        fl1 = 0.80690026 * image_size
-        fl2 = 1.4362376 * image_size
+        # fl1 = 0.80690026 * image_size
+        # fl2 = 1.4362376 * image_size
         
-        #sample 10
-        # fl1 = 1.0215813 * image_size
-        # fl2 = 1.8217499 * image_size
+        #sample 10 teacher
+        fl1 = 1.0215813 * image_size
+        fl2 = 1.8217499 * image_size
         
         
         principal_point = image_size / 2

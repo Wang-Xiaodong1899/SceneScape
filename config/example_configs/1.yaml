@@ -2,4 +2,4 @@ runs_dir: test_scale_40_TT
 seed: -1
 frames: 1
 
-inpainting_prompt: "A boy is installing a light bulb"
+inpainting_prompt: "A teacher and three student in the classroom"
