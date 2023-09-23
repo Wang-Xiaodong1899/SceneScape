@@ -19,7 +19,7 @@ from pytorch3d.renderer import (
 )
 from torchvision.transforms import ToTensor, ToPILImage, Resize
 
-from models.mesh_renderer import Renderer
+from models.ori_mesh_renderer import Renderer
 from util.general_utils import (
     LatentStorer,
     sobel_filter,
@@ -58,17 +58,14 @@ class WarpInpaintModel(torch.nn.Module):
             self.inpainting_pipeline.set_use_memory_efficient_attention_xformers(True)
 
         mask_full = Image.new("RGB", (512, 512), "white")
-        # image = self.inpainting_pipeline(
-        #     prompt=self.inpainting_prompt,
-        #     negative_prompt=self.config["negative_inpainting_prompt"],
-        #     image=mask_full,
-        #     mask_image=mask_full,
-        #     num_inference_steps=self.config["num_inpainting_steps"],
-        #     guidance_scale=self.config["classifier_free_guidance_scale"],
-        # ).images[0]
-        
-        # if given a init image
-        image = Image.open('/workspace/SceneScape/nerf.png').convert('RGB').resize((512, 512))
+        image = self.inpainting_pipeline(
+            prompt=self.inpainting_prompt,
+            negative_prompt=self.config["negative_inpainting_prompt"],
+            image=mask_full,
+            mask_image=mask_full,
+            num_inference_steps=self.config["num_inpainting_steps"],
+            guidance_scale=self.config["classifier_free_guidance_scale"],
+        ).images[0]
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
@@ -78,8 +75,8 @@ class WarpInpaintModel(torch.nn.Module):
 
         self.current_camera = self.get_init_camera()
         if self.config["motion"] == "round":
-            self.initial_median_depth = torch.median(self.depth).item() # median depth of depth image
-            self.center_depth = self.depth[:, :, 256, 256].item() # center point of depth image
+            self.initial_median_depth = torch.median(self.depth).item()
+            self.center_depth = self.depth[:, :, 256, 256].item()
             self.current_camera = self.get_next_camera_round(0)
 
         elif self.config["motion"] == "rotations":
@@ -356,6 +353,8 @@ class WarpInpaintModel(torch.nn.Module):
     def warp_splatting(self, epoch):
         if self.config["motion"] == "rotations":
             camera = self.get_next_camera_rotation()
+        elif self.config["motion"] == "rotations_without_z":
+            camera = self.get_next_camera_rotation_without_z()
         elif self.config["motion"] == "translations":
             camera = self.get_next_camera_translation(self.disparities[epoch - 1], epoch)
         elif self.config["motion"] == "round":
@@ -503,7 +502,7 @@ class WarpInpaintModel(torch.nn.Module):
         blurred_subsampled = blurred[:, :, ::stride, ::stride]
         return blurred_subsampled
 
-    def warp_mesh(self, epoch=None, camera=None, round_reverse=False):
+    def warp_mesh(self, epoch=None, camera=None):
         assert not (epoch is None and camera is None)
         if camera is None:
             if self.config["motion"] == "rotations":
@@ -511,7 +510,7 @@ class WarpInpaintModel(torch.nn.Module):
             elif self.config["motion"] == "translations":
                 camera = self.get_next_camera_translation(self.disparities[epoch - 1], epoch)
             elif self.config["motion"] == "round":
-                camera = self.get_next_camera_round(epoch, reverse=round_reverse)
+                camera = self.get_next_camera_round(epoch)
             elif self.config["motion"] == "predefined":
                 camera = self.predefined_cameras[epoch]
             else:
@@ -562,7 +561,7 @@ class WarpInpaintModel(torch.nn.Module):
                 self.config["mask_opening_kernel_size"],
                 device=inpaint_mask.device,
             )
-            inpaint_mask_opened = opening(inpaint_mask, kernel) # opening operation
+            inpaint_mask_opened = opening(inpaint_mask, kernel)
             mask_diff = inpaint_mask - inpaint_mask_opened
             warped_image = self.inpaint_cv2(warped_image, mask_diff)
             inpaint_mask = inpaint_mask_opened
@@ -667,25 +666,8 @@ class WarpInpaintModel(torch.nn.Module):
             decoded_image = decoded_image
             inpaint_mask = inpaint_mask
 
-        self.images.append(decoded_image) # add images
-        self.masks.append(inpaint_mask) # add masks
-    
-    def init_images_masks(self, image, inpaint_mask):
-        decoded_image = image
-        # take center crop of 512*512
-        if self.config["inpainting_resolution"] > 512:
-            decoded_image = decoded_image[
-                :, :, self.border_size : -self.border_size, self.border_size : -self.border_size
-            ]
-            inpaint_mask = inpaint_mask[
-                :, :, self.border_size : -self.border_size, self.border_size : -self.border_size
-            ]
-        else:
-            decoded_image = decoded_image
-            inpaint_mask = inpaint_mask
-
-        self.images.append(decoded_image) # add images
-        self.masks.append(inpaint_mask) # add masks
+        self.images.append(decoded_image)
+        self.masks.append(inpaint_mask)
 
     def decode_latents(self, latents):
         latents = 1 / 0.18215 * latents
@@ -694,7 +676,7 @@ class WarpInpaintModel(torch.nn.Module):
 
         return images
 
-    def get_next_camera_round(self, epoch, reverse=False):
+    def get_next_camera_round(self, epoch):
         if self.config["rotate_radius"] == "median":
             r = 2 * self.initial_median_depth
         elif self.config["rotate_radius"] == "center":
@@ -704,8 +686,6 @@ class WarpInpaintModel(torch.nn.Module):
 
         next_camera = copy.deepcopy(self.current_camera)
         center = torch.tensor([[0.0, 0.0, r / 2]])
-        if reverse:
-            epoch = -1*epoch
         theta = torch.deg2rad((torch.tensor(epoch) * 360.0 / self.config["full_circle_epochs"]) % 360)
         x = torch.sin(theta)
         y = 0
@@ -760,7 +740,7 @@ class WarpInpaintModel(torch.nn.Module):
 
         return next_camera
     
-    def get_next_camera_rotation_woz(self):
+    def get_next_camera_rotation_without_z(self):
         next_camera = copy.deepcopy(self.current_camera)
         if next_camera.rotating:
             if self.current_camera.rotations_count <= self.config["rotation_steps"]:

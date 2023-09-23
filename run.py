@@ -11,7 +11,7 @@ from torch.cuda.amp import GradScaler
 from torchvision.transforms import ToPILImage
 from tqdm import tqdm
 
-from models.warp_inpaint_model import WarpInpaintModel
+from models.ori_warp_inpaint_model import WarpInpaintModel
 from util.finetune_utils import finetune_depth_model, finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
 
