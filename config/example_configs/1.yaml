@@ -1,4 +1,4 @@
-runs_dir: test_scale_2
+runs_dir: test_norm_fix
 seed: -1
 frames: 1
 
