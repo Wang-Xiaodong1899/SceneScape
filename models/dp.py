@@ -284,7 +284,7 @@ class WarpInpaintModel(torch.nn.Module):
         # print(f'norm depth min: {updated_depth.min()}, max: {updated_depth.max()}')
 
         # scale = 5
-        updated_depth = updated_depth * 20
+        updated_depth = updated_depth * 40
         print(f'update depth min: {updated_depth.min()}, max: {updated_depth.max()}')
 
         updated_depth[mask] = -1
