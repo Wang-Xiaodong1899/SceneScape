@@ -43,11 +43,16 @@ class Renderer:
     def __init__(self, config, image_size=512, antialiasing_factor=1):
         self.device = config["device"]
         # fl = antialiasing_factor * config["init_focal_length"]
-        fl1 = 0.90174353 * image_size
-        fl2 = 1.6036477 * image_size
+        # fl1 = 0.90174353 * image_size
+        # fl2 = 1.6036477 * image_size
+
+
         # fl1 = 0.784361 * image_size
         # fl2 = 1.3987232 * image_size
         # need edit
+        # man
+        fl1 = 0.8997432 * image_size
+        fl2 = 1.611052 * image_size
         
         #sample 10
         # fl1 = 1.0215813 * image_size

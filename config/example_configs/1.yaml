@@ -2,4 +2,4 @@ runs_dir: test_scale_40_TT
 seed: -1
 frames: 1
 
-inpainting_prompt: "A white truck with its trunk open parked on a snowy street"
+inpainting_prompt: "A man standing on the grass"
