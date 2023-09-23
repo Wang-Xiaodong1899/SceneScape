@@ -26,9 +26,9 @@ from util.general_utils import (
 )
 from util.midas_utils import dpt_transform
 
-sys.path.append("/workspace/SceneScape/util/softmax-splatting")
-import softsplat
-print('import success!')
+# sys.path.append("/workspace/SceneScape/util/softmax-splatting")
+# import softsplat
+# print('import success!')
 
 class WarpInpaintModel(torch.nn.Module):
     def __init__(self, config):
