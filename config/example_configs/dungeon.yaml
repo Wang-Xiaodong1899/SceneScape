@@ -1,5 +1,5 @@
-runs_dir: rotation_without_z
+runs_dir: rotation_without_z_change_5
 seed: 22
-frames: 5
+frames: 10
 
 inpainting_prompt: "POV, walkthrough, a medieval dungeon with damp, stone corridors and flickering torches lining the walls, beautiful photo, masterpiece, indoor scene"
