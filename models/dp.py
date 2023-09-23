@@ -280,12 +280,12 @@ class WarpInpaintModel(torch.nn.Module):
         print(f'depth min: {depth.min()}, max: {depth.max()}')
 
         # normize depth
-        updated_depth = (updated_depth - updated_depth.min()) / (updated_depth.max() - updated_depth.min() + 1e-6)
-        print(f'norm depth min: {updated_depth.min()}, max: {updated_depth.max()}')
+        # updated_depth = (updated_depth - updated_depth.min()) / (updated_depth.max() - updated_depth.min() + 1e-6)
+        # print(f'norm depth min: {updated_depth.min()}, max: {updated_depth.max()}')
 
         # scale = 5
-        # updated_depth = updated_depth * 2
-        # print(f'update depth min: {updated_depth.min()}, max: {updated_depth.max()}')
+        updated_depth = updated_depth * 5
+        print(f'update depth min: {updated_depth.min()}, max: {updated_depth.max()}')
 
         updated_depth[mask] = -1
         if self.config["connect_mesh"] and epoch != 0:
