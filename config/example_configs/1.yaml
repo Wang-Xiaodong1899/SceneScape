@@ -1,5 +1,5 @@
-runs_dir: test_sample10_floatfl1fl2
+runs_dir: test_sample1
 seed: -1
 frames: 1
 
-inpainting_prompt: "Teacher and students in classroom"
+inpainting_prompt: "A white truck with its trunk open parked on a snowy street"
