@@ -50,8 +50,8 @@ class Renderer:
         # need edit
         
         #sample 10
-        fl1 = 1.0215813 * image_size
-        fl2 = 1.8217499 * image_size
+        fl1 = 1.0215813 # * image_size
+        fl2 = 1.8217499 # * image_size
         
         
         principal_point = image_size / 2
