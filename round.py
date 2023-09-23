@@ -16,6 +16,7 @@ from util.finetune_utils import finetune_depth_model, finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
 
 round_images = []
+warp_images = []
 
 def evaluate(model):
     fps = model.config["save_fps"]
@@ -33,9 +34,11 @@ def evaluate(model):
         model.save_mesh("full_mesh")
 
     video = (255 * torch.cat(round_images, dim=0)).to(torch.uint8).detach().cpu()
+    warp_video = (255 * torch.cat(warp_images, dim=0)).to(torch.uint8).detach().cpu()
     # video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
 
     save_video(video, save_root / "output.mp4", fps=fps)
+    save_video(warp_video, save_root / "output_warp.mp4", fps=fps)
     # save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
 
 
@@ -123,8 +126,15 @@ def run(config, prompt=None, image_path=None, round_reverse=False):
     for image in left_images:
         round_images.append(image)
     
+    left_warp_images = model.warped_images
+    for image in left_warp_images:
+        warp_images.append(image)
+    
     for image in reversed(left_images[:-1]):
         round_images.append(image)
+    
+    for image in reversed(left_warp_images[:-1]):
+        warp_images.append(image)
 
     gc.collect()
     torch.cuda.empty_cache()
@@ -180,6 +190,10 @@ def run(config, prompt=None, image_path=None, round_reverse=False):
     right_images = model.images
     for image in right_images:
         round_images.append(image)
+    
+    right_warp_images = model.warped_images
+    for image in right_warp_images:
+        warp_images.append(image)
 
     evaluate(model)
 
