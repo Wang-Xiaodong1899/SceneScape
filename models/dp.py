@@ -277,6 +277,7 @@ class WarpInpaintModel(torch.nn.Module):
         print('depth mask: ', (mask==1).sum())
 
         updated_depth = depth.clone()
+        print(f'depth min: {depth.min()}, max: {depth.max()}')
         updated_depth[mask] = -1
         if self.config["connect_mesh"] and epoch != 0:
             closest_boundary_points_data = self.boundary_points_dict[epoch]
