@@ -93,7 +93,7 @@ class WarpInpaintModel(torch.nn.Module):
             self.current_camera.rotating = True
             self.current_camera.no_rotations_count = 0
             self.current_camera.rotations_count = 0
-            self.current_camera.rotating_right = 1 if torch.rand(1, device=self.device) > 0.5 else -1
+            self.current_camera.rotating_right = 1 if torch.rand(1, device=self.device) > 0.99 else -1
             print(f'rotation_right: {self.current_camera.rotating_right}')
             self.current_camera.move_dir = torch.tensor([[0.0, 0.0, 0.0]], device=self.device)
 
