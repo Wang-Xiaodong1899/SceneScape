@@ -19,7 +19,7 @@ from pytorch3d.renderer import (
 )
 from torchvision.transforms import ToTensor, ToPILImage, Resize
 
-from models.mesh_renderer import Renderer
+from models.round_mesh_renderer import Renderer
 from util.general_utils import (
     LatentStorer,
     sobel_filter,
