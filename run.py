@@ -33,9 +33,11 @@ def evaluate(model):
 
     video = (255 * torch.cat(model.images, dim=0)).to(torch.uint8).detach().cpu()
     video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
+    warp_video = (255 * torch.cat(model.warped_images, dim=0)).to(torch.uint8).detach().cpu()
 
     save_video(video, save_root / "output.mp4", fps=fps)
     save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
+    save_video(warp_video, save_root / "warp_output.mp4", fps=fps)
 
 
 def evaluate_epoch(model, epoch):
