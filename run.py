@@ -125,12 +125,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/fast.yaml",
+        default="./config/base-config.yaml",
         help="Config path",
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/nerf.yaml",
+        default="./config/example_configs/dungeon.yaml",
         help="Config path",
     )
     args = parser.parse_args()
