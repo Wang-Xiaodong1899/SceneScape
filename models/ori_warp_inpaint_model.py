@@ -507,6 +507,8 @@ class WarpInpaintModel(torch.nn.Module):
         if camera is None:
             if self.config["motion"] == "rotations":
                 camera = self.get_next_camera_rotation()
+            elif self.config["motion"] == "rotations_without_z":
+                camera = self.get_next_camera_rotation_without_z()
             elif self.config["motion"] == "translations":
                 camera = self.get_next_camera_translation(self.disparities[epoch - 1], epoch)
             elif self.config["motion"] == "round":
