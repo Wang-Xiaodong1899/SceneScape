@@ -136,7 +136,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/MR.yaml",
+        default="./config/example_configs/RE10k.yaml",
         help="Config path",
     )
     # start
@@ -161,13 +161,13 @@ if __name__ == "__main__":
     config = OmegaConf.merge(base_config, example_config)
 
     # read files
-    data_file = os.path.join('/f_data/G', 'dataset/MannequinChallenge/meta_200_random.jsonl')
+    data_file = os.path.join('/f_data/G', 'dataset/RealEstate10K/meta_1k_sorted_new.jsonl')
     with open(data_file, 'rb') as f:
         data = [e for e in json_lines.reader(f)]
     
-    root = os.path.join('/f_data/G', 'dataset/MannequinChallenge/testimages_135')
+    root = os.path.join('/f_data/G', 'dataset/RealEstate10K/sorted_1k')
 
-    caption_file = os.path.join('/f_data/G', 'dataset/MannequinChallenge/captions_200.jsonl')
+    caption_file = os.path.join('/f_data/G', 'dataset/RealEstate10K/captions_1k.jsonl')
     with open(caption_file, 'rb') as f:
         caption_data = [e for e in json_lines.reader(f)]
 
@@ -180,15 +180,15 @@ if __name__ == "__main__":
         videoname = item['video_name']
 
         first_name = str(item['1st'][0])+'.png'
-        second_name = str(item['3rd'][0]) +'.png'
-        three_name = str(item['5th'][0]) + '.png'
+        second_name = str(item['5th'][0]) +'.png'
+        three_name = str(item['10th'][0]) + '.png'
 
         filename_ori = os.path.join(root, videoname, first_name)
 
         intrinsics = np.array(item['1st'][1:5]).astype(np.float32)
         src_pose = np.array(item['1st'][5:17]).astype(np.float32).reshape(3, 4)
-        tgt_pose_3rd = np.array(item['3rd'][1:13]).astype(np.float32).reshape(3, 4)
-        tgt_pose_5th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
+        tgt_pose_5th = np.array(item['3rd'][1:13]).astype(np.float32).reshape(3, 4)
+        tgt_pose_10th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
 
         width, height = 512, 512
         k = np.array(
