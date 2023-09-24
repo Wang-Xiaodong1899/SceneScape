@@ -157,6 +157,9 @@ if __name__ == "__main__":
 
     for idx in tqdm(range(len(data))):
 
+        # reverse
+        idx = len(data) - idx - 1
+
         item = data[idx]
         videoname = item['video_name']
 
