@@ -139,6 +139,20 @@ if __name__ == "__main__":
         default="./config/example_configs/1.yaml",
         help="Config path",
     )
+    # start
+    parser.add_argument(
+        "--start",
+        default=0,
+        help="start",
+    )
+    # end
+    parser.add_argument(
+        "--end",
+        default=50,
+        help="end",
+    )
+
+
     args = parser.parse_args()
     base_config = OmegaConf.load(args.base_config)
     example_config = OmegaConf.load(args.example_config)
@@ -155,10 +169,10 @@ if __name__ == "__main__":
     with open(caption_file, 'rb') as f:
         caption_data = [e for e in json_lines.reader(f)]
 
-    for idx in tqdm(range(len(data))):
+    for idx in tqdm(range(len(data))[args.start: args.end]):
 
         # reverse
-        idx = len(data) - idx - 1
+        # idx = len(data) - idx - 1
 
         item = data[idx]
         videoname = item['video_name']
@@ -185,7 +199,7 @@ if __name__ == "__main__":
         )
         intrinsicss = np.array([k,k])
 
-        extrinsics = np.array([src_pose, tgt_pose_3rd])
+        extrinsics = np.array([src_pose, tgt_pose_5th])
 
         prompt = caption_data[idx][videoname].strip()
 
