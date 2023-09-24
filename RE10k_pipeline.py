@@ -187,8 +187,8 @@ if __name__ == "__main__":
 
         intrinsics = np.array(item['1st'][1:5]).astype(np.float32)
         src_pose = np.array(item['1st'][5:17]).astype(np.float32).reshape(3, 4)
-        tgt_pose_5th = np.array(item['3rd'][1:13]).astype(np.float32).reshape(3, 4)
-        tgt_pose_10th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
+        tgt_pose_5th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
+        tgt_pose_10th = np.array(item['10th'][1:13]).astype(np.float32).reshape(3, 4)
 
         width, height = 512, 512
         k = np.array(
