@@ -172,37 +172,37 @@ if __name__ == "__main__":
         caption_data = [e for e in json_lines.reader(f)]
 
     for idx in tqdm(range(len(data))[args.start: args.end]):
+        try:
+            item = data[idx]
+            videoname = item['video_name']
 
-        # reverse
-        # idx = len(data) - idx - 1
+            first_name = str(item['1st'][0])+'.png'
+            second_name = str(item['5th'][0]) +'.png'
+            three_name = str(item['10th'][0]) + '.png'
 
-        item = data[idx]
-        videoname = item['video_name']
+            filename_ori = os.path.join(root, videoname, first_name)
 
-        first_name = str(item['1st'][0])+'.png'
-        second_name = str(item['5th'][0]) +'.png'
-        three_name = str(item['10th'][0]) + '.png'
+            intrinsics = np.array(item['1st'][1:5]).astype(np.float32)
+            src_pose = np.array(item['1st'][5:17]).astype(np.float32).reshape(3, 4)
+            tgt_pose_5th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
+            tgt_pose_10th = np.array(item['10th'][1:13]).astype(np.float32).reshape(3, 4)
 
-        filename_ori = os.path.join(root, videoname, first_name)
+            width, height = 512, 512
+            k = np.array(
+                [
+                    [intrinsics[0]*width, 0, intrinsics[2]*width],
+                    [0, intrinsics[1]*height, intrinsics[3]*height],
+                    [0, 0, 1],
+                ],
+                dtype=np.float32,
+            )
+            intrinsicss = np.array([k,k])
 
-        intrinsics = np.array(item['1st'][1:5]).astype(np.float32)
-        src_pose = np.array(item['1st'][5:17]).astype(np.float32).reshape(3, 4)
-        tgt_pose_5th = np.array(item['5th'][1:13]).astype(np.float32).reshape(3, 4)
-        tgt_pose_10th = np.array(item['10th'][1:13]).astype(np.float32).reshape(3, 4)
+            extrinsics = np.array([src_pose, tgt_pose_5th])
 
-        width, height = 512, 512
-        k = np.array(
-            [
-                [intrinsics[0]*width, 0, intrinsics[2]*width],
-                [0, intrinsics[1]*height, intrinsics[3]*height],
-                [0, 0, 1],
-            ],
-            dtype=np.float32,
-        )
-        intrinsicss = np.array([k,k])
+            prompt = caption_data[idx][videoname].strip()
 
-        extrinsics = np.array([src_pose, tgt_pose_5th])
-
-        prompt = caption_data[idx][videoname].strip()
-
-        run(config, image_path=filename_ori, prompt=prompt, intrinsics=intrinsicss, extrinsics=extrinsics, videoname=videoname, file_name=first_name)
+            run(config, image_path=filename_ori, prompt=prompt, intrinsics=intrinsicss, extrinsics=extrinsics, videoname=videoname, file_name=first_name)
+        except Exception as e:
+            print(e, 'bad continue')
+            continue
