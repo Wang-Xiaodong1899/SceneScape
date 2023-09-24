@@ -143,12 +143,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--start",
         default=0,
+        type=int,
         help="start",
     )
     # end
     parser.add_argument(
         "--end",
         default=50,
+        type=int,
         help="end",
     )
 
