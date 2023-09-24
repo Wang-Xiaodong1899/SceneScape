@@ -47,7 +47,7 @@ class WarpInpaintModel(torch.nn.Module):
         self.file_name = image_path.split('/')[-1]
 
         self.run_dir = os.path.join('/f_data/G/SceneScape/', config['runs_dir'])
-        if os.path.exists(self.run_dir):
+        if not os.path.exists(self.run_dir):
             os.makedirs(self.run_dir, exist_ok=True)
 
         self.device = config["device"]
@@ -534,8 +534,8 @@ class WarpInpaintModel(torch.nn.Module):
         warped_image, inpaint_mask, warped_depth, closest_faces, fragments = self.renderer.sample_points(
             self.current_points_3d, self.current_triangles, self.current_colors, extrinsic
         )
-        print('saving original warped image...')
-        ToPILImage()(warped_image[0]).save("/workspace/ori_warp.png")
+        # print('saving original warped image...')
+        # ToPILImage()(warped_image[0]).save("/workspace/ori_warp.png")
 
         warped_image = warped_image.clip(0, 1)
         nans = inpaint_mask.isnan()
