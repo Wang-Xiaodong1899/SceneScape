@@ -198,7 +198,7 @@ if __name__ == "__main__":
             )
             intrinsicss = np.array([k,k])
 
-            extrinsics = np.array([src_pose, tgt_pose_5th])
+            extrinsics = np.array([src_pose, tgt_pose_10th])
 
             prompt = caption_data[idx][videoname].strip()
 
