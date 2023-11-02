@@ -74,10 +74,10 @@ def evaluate_epoch(model, epoch):
     # blended result
     save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_blend.png')
     warped_image = model.warped_images[1][0]
-    mask = (model.masks[1][0]/255).to(torch.long)
-    print(f'mask: {mask}')
+
+    mask = (model.masks[1][0]).to(torch.long)
+    print(f'mask.max: {mask.max()}, mask.min: {mask.min()}')
     inpainted_image = model.images_orig_decoder[1][0]
-    print(f'inpainted_image: {inpainted_image}')
     blend_image = warped_image * (1 - mask) + inpainted_image * mask
     ToPILImage()(blend_image).save(save_path)
 
