@@ -153,6 +153,13 @@ if __name__ == "__main__":
         type=int,
         help="end",
     )
+    parser.add_argument(
+        "--tgt",
+        default=1,
+        type=int,
+        help="tgt pose",
+    )
+
 
 
     args = parser.parse_args()
@@ -198,7 +205,10 @@ if __name__ == "__main__":
             )
             intrinsicss = np.array([k,k])
 
-            extrinsics = np.array([src_pose, tgt_pose_10th])
+            if args.tgt ==1:
+                extrinsics = np.array([src_pose, tgt_pose_5th])
+            else:
+                extrinsics = np.array([src_pose, tgt_pose_10th])
 
             prompt = caption_data[idx][videoname].strip()
 
