@@ -27,16 +27,16 @@ Clone the repo and create the environment:
 ```
 git clone https://github.com/Wang-Xiaodong1899/SceneScape.git
 cd SceneScape
-conda create --name scenescape python=3.10
+conda create --name scenescape python=3.10 -y
 conda activate scenescape 
 ```
 We are using  <a href="https://github.com/facebookresearch/pytorch3d" target="_blank">Pytorch3D</a> to perform rendering.
 Run the following commands to install it or follow their <a href="https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md" target="_blank">installation guide</a> (it may take some time).
 ```
-conda install pytorch=1.13.0 torchvision pytorch-cuda=11.6 -c pytorch -c nvidia
-conda install -c fvcore -c iopath -c conda-forge fvcore iopath
-conda install -c bottler nvidiacub
-conda install pytorch3d -c pytorch3d
+conda install pytorch=1.13.0 torchvision pytorch-cuda=11.6 -c pytorch -c nvidia -y
+conda install -c fvcore -c iopath -c conda-forge fvcore iopath -y 
+conda install -c bottler nvidiacub -y
+conda install pytorch3d -c pytorch3d -y
 ```
 Install the rest of the requirements:
 ```
