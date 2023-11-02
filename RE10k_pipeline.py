@@ -155,7 +155,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--tgt",
-        default=1,
+        default=2,
         type=int,
         help="tgt pose",
     )
