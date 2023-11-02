@@ -67,6 +67,10 @@ def evaluate_epoch(model, epoch):
     save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_mask.png')
     ToPILImage()(model.masks[1][0]).save(save_path)
 
+    # warped image
+    save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_warp.png')
+    ToPILImage()(model.warped_images[1][0]).save(save_path)
+
     # blended result
 
     # finetune decoder result
