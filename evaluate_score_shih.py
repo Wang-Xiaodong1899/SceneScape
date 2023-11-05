@@ -4,8 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from skimage import img_as_float, img_as_ubyte
-from skimage.measure import compare_ssim as ssim
-from skimage.measure import compare_psnr as psnr
+# from skimage.measure import compare_ssim as ssim
+# from skimage.measure import compare_psnr as psnr
+
+# for latest scikit-image
+from skimage.metrics import structural_similarity as ssim
+from skimage.metrics import peak_signal_noise_ratio as psnr
+
 import matplotlib.pyplot as plt
 import os
 import glob
