@@ -26,16 +26,16 @@ from tqdm import tqdm
 # sys.path.append('PerceptualSimilarity')
 from PerceptualSimilarity.models import dist_model as dm
 
-# tgt_dir = '/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_10th/gt_10th/'
-# tgt_dir = '/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_5th/gt_5th/'
-# tgt_dir = '/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalMC/EP130_eval_tgt_3rd/gt_5th'
-# tgt_dir = '/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalMC/EP130_eval_tgt_5th/gt_10th'
+# tgt_dir = '/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_10th/gt_10th/'
+# tgt_dir = '/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_5th/gt_5th/'
+# tgt_dir = '/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalMC/EP130_eval_tgt_3rd/gt_5th'
+# tgt_dir = '/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalMC/EP130_eval_tgt_5th/gt_10th'
 
-# our_dir = '/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/Fix_EPLast_caption_tgt_5th/pred_10th/'
+# our_dir = '/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/Fix_EPLast_caption_tgt_5th/pred_10th/'
 
 def main(
-    tgt_dir='/f_ndata/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_10th/gt_10th/',
-    our_dir='/f_ndata/G/SceneScape/RE10k_eval_10th_2023_C50/',
+    tgt_dir='/f_data/G/i2v/sdm/SDM_S512_novel_view_AR_V1_evalRealEstate/EP130_eval_tgt_10th/gt_10th/',
+    our_dir='/f_data/G/SceneScape/RE10k_eval_10th_2023_C50/',
 ):
 
     multiple_number = 1
