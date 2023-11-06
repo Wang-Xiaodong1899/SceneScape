@@ -136,7 +136,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/RE10k.yaml",
+        default="./config/example_configs/RE10k_5th.yaml",
         help="Config path",
     )
     # start
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--tgt",
-        default=2,
+        default=1,
         type=int,
         help="tgt pose",
     )

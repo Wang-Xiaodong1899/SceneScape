@@ -20,8 +20,7 @@ import sys
 import fire
 
 #TODO scikit-image 0.16.2
-# wget https://github.com/scikit-image/scikit-image/archive/refs/tags/v0.16.2.zip
-# pip install -e .
+# python 3.6.10
 
 from tqdm import tqdm
 
