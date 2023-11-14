@@ -151,12 +151,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/dp.yaml",
+        default="./config/dp_RE_D50.yaml",
         help="Config path",
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/RE10k.yaml",
+        default="./config/example_configs/RE10k_5th_D50.yaml",
         help="Config path",
     )
     # start
