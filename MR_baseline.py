@@ -151,7 +151,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/dp_MC_0.yaml",
+        default="./config/dp_MC_50.yaml",
         help="Config path",
     )
     parser.add_argument(

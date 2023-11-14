@@ -131,12 +131,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/dp.yaml",
+        default="./config/dp_MC_50.yaml",
         help="Config path",
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/MR.yaml",
+        default="./config/example_configs/MC_3rd_C50.yaml",
         help="Config path",
     )
     # start
@@ -153,7 +153,12 @@ if __name__ == "__main__":
         type=int,
         help="end",
     )
-
+    parser.add_argument(
+        "--tgt",
+        default=1,
+        type=int,
+        help="tgt pose",
+    )
 
     args = parser.parse_args()
     base_config = OmegaConf.load(args.base_config)
@@ -201,7 +206,10 @@ if __name__ == "__main__":
         )
         intrinsicss = np.array([k,k])
 
-        extrinsics = np.array([src_pose, tgt_pose_5th])
+        if args.tgt == 1:
+                extrinsics = np.array([src_pose, tgt_pose_3rd])
+        else:
+            extrinsics = np.array([src_pose, tgt_pose_5th])
 
         prompt = caption_data[idx][videoname].strip()
 
