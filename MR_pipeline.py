@@ -136,7 +136,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/MC_3rd_C50.yaml",
+        default="./config/example_configs/MC_5th_C50.yaml",
         help="Config path",
     )
     # start
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--tgt",
-        default=1,
+        default=2,
         type=int,
         help="tgt pose",
     )
