@@ -169,7 +169,7 @@ if __name__ == "__main__":
     # end
     parser.add_argument(
         "--end",
-        default=500,
+        default=250,
         type=int,
         help="end",
     )
