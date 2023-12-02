@@ -29,9 +29,9 @@ def evaluate(model):
         "depths": torch.cat(model.depths, dim=0),
         "cameras": model.cameras_extrinsics,
     }
-    torch.save(save_dict, save_root / "results.pt")
-    if not model.config["use_splatting"]:
-        model.save_mesh("full_mesh")
+    # torch.save(save_dict, save_root / "results.pt")
+    # if not model.config["use_splatting"]:
+    #     model.save_mesh("full_mesh")
 
     video = (255 * torch.cat(round_images, dim=0)).to(torch.uint8).detach().cpu()
     warp_video = (255 * torch.cat(warp_images, dim=0)).to(torch.uint8).detach().cpu()
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--image",
-        default="/workspace/SceneScape/nerf.png",
+        default="/mnt/workspace/SceneScape/nerf.png",
         help="image path"
     )
     parser.add_argument(

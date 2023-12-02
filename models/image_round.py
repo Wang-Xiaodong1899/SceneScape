@@ -1,4 +1,5 @@
 import copy
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -39,8 +40,9 @@ class WarpInpaintModel(torch.nn.Module):
         now = datetime.now()
         dt_string = now.strftime("%d-%m-%Y_%H-%M")
         run_dir_root = Path(config["runs_dir"])
-        self.run_dir = run_dir_root / f"{dt_string}_{prompt.replace(' ', '_')[:40]}"
-        self.run_dir.mkdir(parents=True, exist_ok=True)
+        self.run_dir = os.path.join('/mnt/workspace/SceneScape/', config['runs_dir'])
+        if not os.path.exists(self.run_dir):
+            os.makedirs(self.run_dir, exist_ok=True)
 
         self.device = config["device"]
         self.config = config

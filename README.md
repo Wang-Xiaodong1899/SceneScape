@@ -40,6 +40,7 @@ conda install pytorch3d -c pytorch3d -y
 ```
 Install the rest of the requirements:
 ```
+pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
 pip install -r requirements.txt
 ```
 #### Splatting installation (OPTIONAL)
