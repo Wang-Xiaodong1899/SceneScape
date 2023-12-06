@@ -51,6 +51,7 @@ class WarpInpaintModel(torch.nn.Module):
         self.inpainting_pipeline = StableDiffusionInpaintPipeline.from_pretrained(
             config["stable_diffusion_checkpoint"],
             safety_checker=None,
+            variant="fp16",
             torch_dtype=torch.float16,
             revision="fp16",
         )
