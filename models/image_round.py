@@ -130,7 +130,7 @@ class WarpInpaintModel(torch.nn.Module):
             self.big_warped_images = []
 
         self.latent_storer = LatentStorer()
-        self.vae = AutoencoderKL.from_pretrained(config["stable_diffusion_checkpoint"], subfolder="vae").to(self.device)
+        self.vae = AutoencoderKL.from_pretrained(config["stable_diffusion_checkpoint"], subfolder="vae", variant="fp16").to(self.device)
         self.decoder_copy = copy.deepcopy(self.vae.decoder)
 
         self.video_direction = -1
