@@ -21,14 +21,14 @@ from util.general_utils import apply_depth_colormap, save_video
 def evaluate(model):
     fps = model.config["save_fps"]
     save_root = Path(model.run_dir)
-    # save_dict = {
-    #     "images": torch.cat(model.images, dim=0),
-    #     "images_orig_decoder": torch.cat(model.images_orig_decoder, dim=0),
-    #     "masks": torch.cat(model.masks, dim=0),
-    #     "disparities": torch.cat(model.disparities, dim=0),
-    #     "depths": torch.cat(model.depths, dim=0),
-    #     "cameras": model.cameras_extrinsics,
-    # }
+    save_dict = {
+        "images": torch.cat(model.images, dim=0),
+        "images_orig_decoder": torch.cat(model.images_orig_decoder, dim=0),
+        "masks": torch.cat(model.masks, dim=0),
+        "disparities": torch.cat(model.disparities, dim=0),
+        "depths": torch.cat(model.depths, dim=0),
+        "cameras": model.cameras_extrinsics,
+    }
     # torch.save(save_dict, save_root / "results.pt")
     if not model.config["use_splatting"]:
         model.save_mesh("full_mesh")
@@ -41,31 +41,31 @@ def evaluate(model):
 
 
 def evaluate_epoch(model, epoch):
-    # disparity = model.disparities[epoch]
-    # disparity_colored = apply_depth_colormap(disparity[0].permute(1, 2, 0))
-    # disparity_colored = disparity_colored.clone().permute(2, 0, 1).unsqueeze(0).float()
-    # save_root = Path(model.run_dir) / "images"
-    # save_root.mkdir(exist_ok=True, parents=True)
-    # (save_root / "frames").mkdir(exist_ok=True, parents=True)
-    # (save_root / "images_orig_decoder").mkdir(exist_ok=True, parents=True)
-    # (save_root / "masks").mkdir(exist_ok=True, parents=True)
-    # (save_root / "warped_images").mkdir(exist_ok=True, parents=True)
-    # (save_root / "disparities").mkdir(exist_ok=True, parents=True)
+    disparity = model.disparities[epoch]
+    disparity_colored = apply_depth_colormap(disparity[0].permute(1, 2, 0))
+    disparity_colored = disparity_colored.clone().permute(2, 0, 1).unsqueeze(0).float()
+    save_root = Path(model.run_dir) / "images"
+    save_root.mkdir(exist_ok=True, parents=True)
+    (save_root / "frames").mkdir(exist_ok=True, parents=True)
+    (save_root / "images_orig_decoder").mkdir(exist_ok=True, parents=True)
+    (save_root / "masks").mkdir(exist_ok=True, parents=True)
+    (save_root / "warped_images").mkdir(exist_ok=True, parents=True)
+    (save_root / "disparities").mkdir(exist_ok=True, parents=True)
 
-    # ToPILImage()(model.images[epoch][0]).save(save_root / "frames" / f"{epoch}.png")
-    # ToPILImage()(model.images_orig_decoder[epoch][0]).save(save_root / "images_orig_decoder" / f"{epoch}.png")
-    # ToPILImage()(model.masks[epoch][0]).save(save_root / "masks" / f"{epoch}.png")
-    # ToPILImage()(model.warped_images[epoch][0]).save(save_root / "warped_images" / f"{epoch}.png")
-    # ToPILImage()(disparity_colored[0]).save(save_root / "disparities" / f"{epoch}.png")
+    ToPILImage()(model.images[epoch][0]).save(save_root / "frames" / f"{epoch}.png")
+    ToPILImage()(model.images_orig_decoder[epoch][0]).save(save_root / "images_orig_decoder" / f"{epoch}.png")
+    ToPILImage()(model.masks[epoch][0]).save(save_root / "masks" / f"{epoch}.png")
+    ToPILImage()(model.warped_images[epoch][0]).save(save_root / "warped_images" / f"{epoch}.png")
+    ToPILImage()(disparity_colored[0]).save(save_root / "disparities" / f"{epoch}.png")
 
     # save only epoch 1
     # original inpainting result
-    save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_inp.png')
-    ToPILImage()(model.images_orig_decoder[1][0]).save(save_path)
+    # save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_inp.png')
+    # ToPILImage()(model.images_orig_decoder[1][0]).save(save_path)
 
     # mask
-    save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_mask.png')
-    ToPILImage()(model.masks[1][0]).save(save_path)
+    # save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_mask.png')
+    # ToPILImage()(model.masks[1][0]).save(save_path)
 
     # warped image
     # save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_warp.png')
