@@ -191,7 +191,7 @@ if __name__ == "__main__":
     second_name = str(data['3rd'][0]) +'.png'
     three_name = str(data['5th'][0]) + '.png'
 
-    filename_ori = first_name
+    filename_ori = os.path.join('./', videoname, first_name)
 
     intrinsics = np.array(data['1st'][1:5]).astype(np.float32)
     src_pose = np.array(data['1st'][5:17]).astype(np.float32).reshape(3, 4)
