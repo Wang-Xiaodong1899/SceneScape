@@ -133,7 +133,7 @@ def run(config, image_path, prompt, intrinsics, extrinsics, videoname, file_name
                 mesh_mask = 1 - model.masks[epoch]
             extrinsic = model.get_extrinsics(model.current_camera)
             # if want use depth to update mesh
-            # model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
+            model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
 
         # reload decoder
         model.vae.decoder = copy.deepcopy(model.decoder_copy)
