@@ -58,8 +58,6 @@ def evaluate_epoch(model, epoch):
     # ToPILImage()(model.warped_images[epoch][0]).save(save_root / "warped_images" / f"{epoch}.png")
     # ToPILImage()(disparity_colored[0]).save(save_root / "disparities" / f"{epoch}.png")
 
-    os.makedirs(model.run_dir, exist_ok=True)
-
     # save only epoch 1
     # original inpainting result
     save_path = os.path.join(model.run_dir, model.video_name + '_' + model.file_name.split('.')[0] + '_inp.png')

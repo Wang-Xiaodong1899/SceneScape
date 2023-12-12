@@ -46,7 +46,7 @@ class WarpInpaintModel(torch.nn.Module):
         self.video_name = image_path.split('/')[-2]
         self.file_name = image_path.split('/')[-1]
 
-        self.run_dir = os.path.join('/f_data/G/SceneScape/', config['runs_dir'])
+        self.run_dir = os.path.join('/mnt/workspace/SceneScape/', config['runs_dir'])
         if not os.path.exists(self.run_dir):
             os.makedirs(self.run_dir, exist_ok=True)
 
