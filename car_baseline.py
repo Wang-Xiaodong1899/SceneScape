@@ -30,8 +30,8 @@ def evaluate(model):
     #     "cameras": model.cameras_extrinsics,
     # }
     # torch.save(save_dict, save_root / "results.pt")
-    # if not model.config["use_splatting"]:
-        # model.save_mesh("full_mesh")
+    if not model.config["use_splatting"]:
+        model.save_mesh("full_mesh")
 
     # video = (255 * torch.cat(model.images, dim=0)).to(torch.uint8).detach().cpu()
     # video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
@@ -109,8 +109,8 @@ def run(config, image_path, prompt, intrinsics, extrinsics, videoname, file_name
         print('data size', warp_output["warped_image"].shape, warp_output["inpaint_mask"].shape)
         inpaint_output = model.inpaint(warp_output["warped_image"], warp_output["inpaint_mask"])
 
-        # if config["finetune_decoder"]:
-        #     finetune_decoder(config, model, warp_output, inpaint_output)
+        if config["finetune_decoder"]:
+            finetune_decoder(config, model, warp_output, inpaint_output)
 
         model.update_images_masks(inpaint_output["latent"], warp_output["inpaint_mask"])
 
@@ -121,7 +121,7 @@ def run(config, image_path, prompt, intrinsics, extrinsics, videoname, file_name
             torch.cuda.empty_cache()
             model.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(model.device)
 
-            # finetune_depth_model(config, model, warp_output, epoch, scaler)
+            finetune_depth_model(config, model, warp_output, epoch, scaler)
 
         model.update_depth(model.images[epoch])
 
@@ -132,7 +132,7 @@ def run(config, image_path, prompt, intrinsics, extrinsics, videoname, file_name
             else:
                 mesh_mask = 1 - model.masks[epoch]
             extrinsic = model.get_extrinsics(model.current_camera)
-            # model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
+            model.update_mesh(model.images[epoch], model.depths[epoch], mesh_mask > 0.5, extrinsic, epoch)
 
         # reload decoder
         model.vae.decoder = copy.deepcopy(model.decoder_copy)
