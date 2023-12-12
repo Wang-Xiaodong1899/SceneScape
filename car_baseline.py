@@ -214,6 +214,6 @@ if __name__ == "__main__":
     else:
         extrinsics = np.array([src_pose, tgt_pose_5th])
 
-    prompt = 'a van with its doors open and a box on the ground'
+    prompt = 'A white truck with its trunk open parked on a snowy street'
 
     run(config, image_path=filename_ori, prompt=prompt, intrinsics=intrinsicss, extrinsics=extrinsics, videoname=videoname, file_name=first_name)
