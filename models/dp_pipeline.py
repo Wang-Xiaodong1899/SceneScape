@@ -187,7 +187,7 @@ class WarpInpaintModel(torch.nn.Module):
             faces=self.current_triangles.cpu(),
             vertex_colors=self.current_colors.cpu(),
         )
-        full_mesh.export(self.run_dir / f"{name}.obj")
+        full_mesh.export(os.path.join(self.run_dir, f"{name}.obj"))
 
     def clean_mesh(self, depth_discontinuity_points=None):
         # remove triangles with duplicate vertices
