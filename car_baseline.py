@@ -218,3 +218,5 @@ if __name__ == "__main__":
     prompt = 'A white truck with its trunk open parked on a snowy street'
 
     run(config, image_path=filename_ori, prompt=prompt, intrinsics=intrinsicss, extrinsics=extrinsics, videoname=videoname, file_name=first_name)
+
+    

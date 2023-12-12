@@ -35,7 +35,7 @@ class WarpInpaintModel(torch.nn.Module):
     def __init__(self, config, image_path, prompt, extrinsics, intrinsics):
         super().__init__()
         if config["use_splatting"]:
-            sys.path.append("/workspace/SceneScape/util/softmax-splatting")
+            sys.path.append("/mnt/workspace/SceneScape/util/softmax-splatting")
             import softsplat
             print('import success!')
 
