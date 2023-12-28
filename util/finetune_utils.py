@@ -43,7 +43,7 @@ def finetune_depth_model_global(config, model, warp_output, epoch, scaler):
     optimizer = torch.optim.Adam(params)
 
     mask = warp_output["warped_depth"] != -1
-    first_depth = model.get_depth(model.images[epoch])
+    first_depth, _ = model.get_depth(model.images[epoch])
 
     for _ in tqdm(range(config["num_finetune_depth_model_steps"]), leave=False):
         optimizer.zero_grad()
