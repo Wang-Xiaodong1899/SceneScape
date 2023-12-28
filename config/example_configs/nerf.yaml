@@ -1,3 +1,3 @@
 runs_dir: nerf_global_finetune_depth
-seed: -1
+seed: 2024
 frames: 4
