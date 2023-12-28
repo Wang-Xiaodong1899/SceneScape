@@ -617,7 +617,7 @@ class WarpInpaintModel(torch.nn.Module):
         print('mask shape: ', full_mask.shape) # four demensions
         full_mask = full_mask.to(torch.float16)
         loss = (
-            F.mse_loss((first_depth * (1-full_mask)).squeeze(), (next_depth * (1-full_mask)).squeeze()) +
+            F.mse_loss((first_depth.detach() * (1-full_mask)).squeeze(), (next_depth * (1-full_mask)).squeeze()) +
             F.mse_loss((warped_depth * full_mask).squeeze(), (next_depth * full_mask).squeeze())
         )
         return loss
