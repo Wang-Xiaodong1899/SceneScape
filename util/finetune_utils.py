@@ -49,7 +49,7 @@ def finetune_depth_model_global(config, model, warp_output, epoch, scaler):
         optimizer.zero_grad()
 
         with torch.amp.autocast(device_type=config["device"], enabled=config["enable_mix_precision"]):
-            loss = model.finetune_depth_model_step_gobal(
+            loss = model.finetune_depth_model_step_global(
                 warp_output["warped_depth"],
                 first_depth,
                 model.images[epoch],
