@@ -166,13 +166,13 @@ if __name__ == "__main__":
     config = OmegaConf.merge(base_config, example_config)
 
     # read files
-    data_file = os.path.join('/f_data/G', 'dataset/MannequinChallenge/meta_200_random.jsonl')
+    data_file = os.path.join('/mnt/workspace', 'MC/meta_200_random.jsonl')
     with open(data_file, 'rb') as f:
         data = [e for e in json_lines.reader(f)]
     
-    root = os.path.join('/f_data/G', 'dataset/MannequinChallenge/testimages_135')
+    root = os.path.join('/mnt/workspace', 'MC/testimages_135')
 
-    caption_file = os.path.join('/f_data/G', 'dataset/MannequinChallenge/captions_200.jsonl')
+    caption_file = os.path.join('/mnt/workspace', 'MC/captions_200.jsonl')
     with open(caption_file, 'rb') as f:
         caption_data = [e for e in json_lines.reader(f)]
 

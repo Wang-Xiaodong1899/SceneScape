@@ -12,7 +12,8 @@ from torchvision.transforms import ToPILImage
 from tqdm import tqdm
 
 from models.image_round import WarpInpaintModel
-from util.finetune_utils import finetune_depth_model, finetune_decoder
+from util.finetune_utils import finetune_depth_model_global as finetune_depth_model
+from util.finetune_utils import finetune_decoder
 from util.general_utils import apply_depth_colormap, save_video
 
 round_images = []
