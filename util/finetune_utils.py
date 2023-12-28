@@ -55,6 +55,6 @@ def finetune_depth_model_global(config, model, warp_output, epoch, scaler):
                 model.images[epoch],
                 mask,
             )
-        scaler.scale(loss).backward()
+        scaler.scale(loss).backward(retain_graph=True)
         scaler.step(optimizer)
         scaler.update()
