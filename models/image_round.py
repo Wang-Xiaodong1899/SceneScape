@@ -610,7 +610,7 @@ class WarpInpaintModel(torch.nn.Module):
         return loss
 
     def finetune_depth_model_step_global(self, warped_depth, first_depth, inpainted_image, mask):
-        next_depth, _ = self.get_depth(inpainted_image.detach())
+        next_depth, _ = self.get_depth(inpainted_image)
         # loss = F.l1_loss(warped_depth.detach(), next_depth, reduction="mean")
         full_mask = mask
         print('depth shape: ', first_depth.shape)
