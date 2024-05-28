@@ -371,6 +371,8 @@ class WarpInpaintModel(torch.nn.Module):
             camera = self.get_next_camera_round(epoch)
         elif self.config["motion"] == "predefined":
             camera = self.predefined_cameras[epoch]
+        elif self.config["motion"] == "circle":
+            camera = self.get_next_camera_circle()
         else:
             raise NotImplementedError
         next_camera = self.convert_pytorch3d_kornia(camera)
@@ -525,6 +527,8 @@ class WarpInpaintModel(torch.nn.Module):
                 camera = self.get_next_camera_round(epoch)
             elif self.config["motion"] == "predefined":
                 camera = self.predefined_cameras[epoch]
+            elif self.config["motion"] == "circle":
+                camera = self.get_next_camera_circle()
             else:
                 raise NotImplementedError
         extrinsic = self.get_extrinsics(camera)
@@ -780,5 +784,30 @@ class WarpInpaintModel(torch.nn.Module):
         # move camera backwards
         speed = self.camera_speed_factor * 0.1875
         next_camera.T += speed * torch.tensor([[0.0, 0.0, 0.0]], device="cuda")
+
+        return next_camera
+    
+    def get_next_camera_circle(self):
+        next_camera = copy.deepcopy(self.current_camera)
+
+        # Circle effect calculation
+        x, y, z = 0.1, -0.1, 0.15  # initial values
+        num_frames = self.config["rotation_steps"]
+        frame_id = self.current_camera.rotations_count
+
+        # Update rotations count for the next frame
+        if frame_id >= num_frames:
+            frame_id = 0
+        next_camera.rotations_count = frame_id + 1
+
+        bs_shift_val = -2.0 + (frame_id * (4.0 / num_frames))
+
+        # Calculate position offsets
+        x_offset = np.cos(bs_shift_val * np.pi) * x
+        y_offset = np.sin(bs_shift_val * np.pi) * y
+        z_offset = np.cos(bs_shift_val * np.pi / 2.0) * z
+
+        # Move camera according to the circle effect
+        next_camera.T += torch.tensor([[x_offset, y_offset, z_offset]], device=self.device)
 
         return next_camera

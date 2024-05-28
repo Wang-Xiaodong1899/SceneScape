@@ -27,16 +27,16 @@ def evaluate(model):
         "depths": torch.cat(model.depths, dim=0),
         "cameras": model.cameras_extrinsics,
     }
-    torch.save(save_dict, save_root / "results.pt")
-    if not model.config["use_splatting"]:
-        model.save_mesh("full_mesh")
+    # torch.save(save_dict, save_root / "results.pt")
+    # if not model.config["use_splatting"]:
+    #     model.save_mesh("full_mesh")
 
     video = (255 * torch.cat(model.images, dim=0)).to(torch.uint8).detach().cpu()
     video_reverse = (255 * torch.cat(model.images[::-1], dim=0)).to(torch.uint8).detach().cpu()
     warp_video = (255 * torch.cat(model.warped_images, dim=0)).to(torch.uint8).detach().cpu()
 
     save_video(video, save_root / "output.mp4", fps=fps)
-    save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
+    # save_video(video_reverse, save_root / "output_reverse.mp4", fps=fps)
     save_video(warp_video, save_root / "warp_output.mp4", fps=fps)
 
 
@@ -127,12 +127,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
         "--base-config",
-        default="./config/base-config.yaml",
+        default="./config/dp_instance.yaml",
         help="Config path",
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/dungeon.yaml",
+        default="./config/example_configs/boy.yaml",
         help="Config path",
     )
     args = parser.parse_args()
