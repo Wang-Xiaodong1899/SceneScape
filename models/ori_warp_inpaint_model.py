@@ -68,7 +68,9 @@ class WarpInpaintModel(torch.nn.Module):
         # ).images[0]
         
         # if given a init image
-        image = Image.open('/mnt/workspace/SceneScape/samples/boy1.png').convert('RGB').resize((512, 512))
+        img_path = "/mnt/workspace/SceneScape/samples/boy1.png"
+        image = Image.open(img_path).convert('RGB').resize((512, 512))
+        print(f'loaded image from {img_path}')
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
@@ -817,6 +819,7 @@ class WarpInpaintModel(torch.nn.Module):
         z_offset = np.cos(bs_shift_val * np.pi / 2.0) * z
 
         # Move camera according to the circle effect
-        next_camera.T += torch.tensor([[x_offset, y_offset, z_offset]], device=self.device)
+        speed = self.camera_speed_factor * 0.1875
+        next_camera.T += speed * torch.tensor([[x_offset, y_offset, z_offset]], device=self.device)
 
         return next_camera
