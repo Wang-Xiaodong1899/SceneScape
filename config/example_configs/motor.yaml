@@ -1,0 +1,5 @@
+runs_dir: motor_seed22_frames_10
+seed: 22
+frames: 10
+
+inpainting_prompt: "A motocross bike flies through the air, kicking up a huge cloud of dust"
