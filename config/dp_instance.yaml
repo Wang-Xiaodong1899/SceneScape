@@ -27,7 +27,7 @@ antialiasing_factor: 1 # 1 for no aa, 2 for aa
 big_resolution: 1024
 
 #camera parameters
-init_focal_length: 500
+init_focal_length: 256
 init_focal_length_f1: 461.69268736
 init_focal_length_f2: 821.0676224
 
