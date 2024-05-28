@@ -57,15 +57,18 @@ class WarpInpaintModel(torch.nn.Module):
         if self.config["use_xformers"]:
             self.inpainting_pipeline.set_use_memory_efficient_attention_xformers(True)
 
-        mask_full = Image.new("RGB", (512, 512), "white")
-        image = self.inpainting_pipeline(
-            prompt=self.inpainting_prompt,
-            negative_prompt=self.config["negative_inpainting_prompt"],
-            image=mask_full,
-            mask_image=mask_full,
-            num_inference_steps=self.config["num_inpainting_steps"],
-            guidance_scale=self.config["classifier_free_guidance_scale"],
-        ).images[0]
+        # mask_full = Image.new("RGB", (512, 512), "white")
+        # image = self.inpainting_pipeline(
+        #     prompt=self.inpainting_prompt,
+        #     negative_prompt=self.config["negative_inpainting_prompt"],
+        #     image=mask_full,
+        #     mask_image=mask_full,
+        #     num_inference_steps=self.config["num_inpainting_steps"],
+        #     guidance_scale=self.config["classifier_free_guidance_scale"],
+        # ).images[0]
+        
+        # if given a init image
+        image = Image.open('/mnt/workspace/SceneScape/samples/boy1.png').convert('RGB').resize((512, 512))
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
