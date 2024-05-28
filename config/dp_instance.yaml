@@ -37,7 +37,7 @@ num_finetune_decoder_steps: 100
 preservation_weight: 100
 
 #inpainting parameters
-stable_diffusion_checkpoint: "stabilityai/stable-diffusion-2-inpainting" #"dreambooth_models/mountains-sks-1500"
+stable_diffusion_checkpoint: "/mnt/workspace/stable-diffusion-2-inpainting" #"dreambooth_models/mountains-sks-1500"
 num_inpainting_steps: 50
 classifier_free_guidance_scale: 7.5
 inpainting_resolution: 512
