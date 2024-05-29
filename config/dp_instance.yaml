@@ -1,5 +1,6 @@
-device: "cuda:1"
-img_path: "samples/motor2.png"
+device: "cuda:0"
+img_path: "samples/motor1.png"
+rotation_steps: 10
 
 negative_inpainting_prompt: ""
 
@@ -9,7 +10,7 @@ extrinsics: ''
 intrinsics: ''
 camera_speed_factor: 0.035 #0.03 for indoors, 0.05 for outdoors
 no_rotations_steps: 0
-rotation_steps: 20
+
 rotation_range: 0.03 #0.01
 rotate_radius: center # median, center, 0.1 (number)
 full_circle_epochs: 360 # a degree per epoch
