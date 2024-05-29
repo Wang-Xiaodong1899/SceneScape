@@ -68,7 +68,7 @@ class WarpInpaintModel(torch.nn.Module):
         # ).images[0]
         
         # if given a init image
-        img_path = "samples/motor1.png"
+        img_path = if "img_path" in config else "samples/motor1.png"
         image = Image.open(img_path).convert('RGB').resize((512, 512))
         print(f'loaded image from {img_path}')
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
