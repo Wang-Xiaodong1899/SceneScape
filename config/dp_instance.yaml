@@ -38,7 +38,7 @@ num_finetune_decoder_steps: 100
 preservation_weight: 100
 
 #inpainting parameters
-stable_diffusion_checkpoint: "stabilityai/stable-diffusion-2-inpainting"
+stable_diffusion_checkpoint: "~/.cache/huggingface/hub/models--stabilityai--stable-diffusion-2-inpainting/snapshots/76eb2c8bdc2cbaf387603cbae34884c254a05e80"
 num_inpainting_steps: 50
 classifier_free_guidance_scale: 7.5
 inpainting_resolution: 512
