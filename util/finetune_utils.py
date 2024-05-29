@@ -28,7 +28,7 @@ def finetune_depth_model(config, model, warp_output, epoch, scaler):
     for _ in tqdm(range(config["num_finetune_depth_model_steps"]), leave=False):
         optimizer.zero_grad()
 
-        with torch.amp.autocast(device_type=config["device"], enabled=config["enable_mix_precision"]):
+        with torch.amp.autocast(device_type=config["device"].split(':')[0], enabled=config["enable_mix_precision"]):
             loss = model.finetune_depth_model_step(
                 warp_output["warped_depth"],
                 model.images[epoch],
@@ -48,7 +48,7 @@ def finetune_depth_model_global(config, model, warp_output, epoch, scaler):
     for _ in tqdm(range(config["num_finetune_depth_model_steps"]), leave=False):
         optimizer.zero_grad()
 
-        with torch.amp.autocast(device_type=config["device"], enabled=config["enable_mix_precision"]):
+        with torch.amp.autocast(device_type=config["device"].split(':')[0], enabled=config["enable_mix_precision"]):
             loss = model.finetune_depth_model_step_global(
                 warp_output["warped_depth"],
                 first_depth,
