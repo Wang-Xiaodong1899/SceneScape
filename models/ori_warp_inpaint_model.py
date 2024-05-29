@@ -74,7 +74,7 @@ class WarpInpaintModel(torch.nn.Module):
         self.image_tensor = ToTensor()(image).unsqueeze(0).to(self.device)
 
         # self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(self.device)
-        self.depth_model = torch.hub.load("/mnt/storage/user/wangxiaodong/SceneScape/dpt_large_384.pt", "DPT_Large").to(self.device)
+        self.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large", path="/mnt/storage/user/wangxiaodong/SceneScape/dpt_large_384.pt", source='local').to(self.device)
 
         with torch.no_grad():
             self.depth, self.disparity = self.get_depth(self.image_tensor)
