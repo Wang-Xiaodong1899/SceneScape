@@ -95,7 +95,7 @@ def run(config):
             del model.depth_model
             gc.collect()
             torch.cuda.empty_cache()
-            model.depth_model = torch.hub.load("intel-isl/MiDaS", "DPT_Large").to(model.device)
+            model.depth_model = torch.hub.load("MiDaS", "DPT_Large", path="/mnt/storage/user/wangxiaodong/.cache/torch/hub/checkpoints/dpt_large_384.pt", source="local").to(model.device)
 
             finetune_depth_model(config, model, warp_output, epoch, scaler)
 
