@@ -41,6 +41,7 @@ class WarpInpaintModel(torch.nn.Module):
         run_dir_root = Path(config["runs_dir"])
         self.run_dir = run_dir_root / f"{dt_string}_{config['inpainting_prompt'].replace(' ', '_')[:40]}"
         self.run_dir.mkdir(parents=True, exist_ok=True)
+        print(f'dir path: {self.run_dir}')
 
         self.device = config["device"]
         self.config = config
