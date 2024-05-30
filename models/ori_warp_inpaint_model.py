@@ -803,7 +803,7 @@ class WarpInpaintModel(torch.nn.Module):
         next_camera = copy.deepcopy(self.current_camera)
 
         # Circle effect calculation
-        x, y, z = 0.2, -0.2, -0.4  # initial values
+        x, y, z = 0.5, -0.5, -0.5  # initial values
         num_frames = self.config["rotation_steps"]
         frame_id = self.current_camera.rotations_count
 

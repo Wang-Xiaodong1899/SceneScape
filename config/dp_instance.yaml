@@ -1,4 +1,4 @@
-device: "cuda:0"
+device: "cuda:1"
 img_path: "samples/motor1.png"
 rotation_steps: 10
 
