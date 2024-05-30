@@ -29,6 +29,6 @@ def save_gif_frames(gif_path, output_folder, resize=False):
                 break
 
 # 示例使用
-gif_path = "C://Users//wangxiaodong//Downloads//arxiv-Final-3D-instance-20240527T134209Z-001//arxiv-Final-3D-instance//A motocross bike flies through the air, kicking up a huge cloud of dust_masked__16764468080_1_16768280152_novel_view.gif"  # 替换为你的GIF文件路径
-output_folder = "C://Users//wangxiaodong//Downloads//arxiv-Final-3D-instance-20240527T134209Z-001//arxiv-Final-3D-instance/motor1_512"  # 替换为你希望保存帧的文件夹
+gif_path = "C://Users//wangxiaodong//Downloads//arxiv-Final-3D-instance-20240527T134209Z-001//arxiv-Final-3D-instance//motor.gif"  # 替换为你的GIF文件路径
+output_folder = "C://Users//wangxiaodong//Downloads//arxiv-Final-3D-instance-20240527T134209Z-001//arxiv-Final-3D-instance/motor2_512"  # 替换为你希望保存帧的文件夹
 save_gif_frames(gif_path, output_folder, resize=True)
