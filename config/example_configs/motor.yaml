@@ -1,5 +1,5 @@
-runs_dir: motor2_frames_10_0.2
+runs_dir: motor1_frames_10_0.4
 seed: -1
 frames: 10
 
-inpainting_prompt: "A motocross bike flies through the air, kicking up a huge cloud of dust"
+inpainting_prompt: "A painting in a museum of a man riding a dirt bike"
