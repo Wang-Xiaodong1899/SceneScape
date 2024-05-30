@@ -132,7 +132,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--example_config",
-        default="./config/example_configs/boy.yaml",
+        default="./config/example_configs/motor.yaml",
         help="Config path",
     )
     args = parser.parse_args()
