@@ -1,5 +1,5 @@
-runs_dir: boy_seed22_frames_5
-seed: 22
+runs_dir: boy2_frames_10
+seed: -1
 frames: 10
 
-inpainting_prompt: "Two boys are sitting in a field with the lake and mountains in the background_two little boys sitting on the grass"
+inpainting_prompt: "Two boys are sitting in a forest with the lake and mountains in the background"

@@ -1,5 +1,5 @@
-device: "cuda:0"
-img_path: "samples/motor2.png"
+device: "cuda:1"
+img_path: "samples/boy2.png"
 rotation_steps: 10
 
 negative_inpainting_prompt: ""
